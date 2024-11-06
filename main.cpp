@@ -1,38 +1,46 @@
-#include <SFML/Graphics.hpp>
+#include <iostream>
+#include "Model/Game/Game.h"
+#include "View/ConsoleView/ConsoleView.h"
+#include "View/GraphicView/GraphicView.h"
+#include "Controller/Controller.h"
 
-int main()
-{
-    // Création de la fenêtre principale
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML - Point Vert");
+using namespace std;
 
-    // Création d'un cercle pour représenter le point vert
-    sf::CircleShape point(5); // Rayon de 5 pixels
-    point.setFillColor(sf::Color::Green);
+int main() {
+    // initialiser le jeu
+    // Game jeu;
 
-    // Positionner le point au centre de la fenêtre
-    point.setPosition((window.getSize().x - point.getRadius() * 2) / 2, (window.getSize().y - point.getRadius() * 2) / 2);
+    // Demander à l'utilisateur de saisir le chemin du fichier de grille
+    string chemin;
+    cout << "Entrez le chemin du fichier de grille : ";
+    cin >> chemin;
+    cout << chemin << endl;
+    // if (!jeu.chargerGrille(chemin)) {
+    //     cerr << "Erreur de chargement du fichier." << endl;
+    //     return 1;
+    // }
 
-    // Boucle principale
-    while (window.isOpen())
-    {
-        // Gestion des événements
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            // Fermer la fenêtre
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    // Créer les vues (console et graphique)
+    // ConsoleView consoleView(jeu);
+    // GraphicView graphicView(jeu);  // Taille de cellule pour l'affichage graphique
 
-        // Effacer l'écran
-        window.clear();
+    // Initialiser le contrôleur
+    // Controller controller(jeu, consoleView, graphicView);
 
-        // Dessiner le point
-        window.draw(point);
+    // Demander à l'utilisateur de choisir le mode d'affichage
+    int choix;
+    std::cout << "Choisissez le mode d'affichage : (1) Console, (2) Graphique : ";
+    std::cin >> choix;
 
-        // Afficher la fenêtre
-        window.display();
+    if (choix == 1) {
+        // controller.lancerModeConsole();
+        cout << "Mode console" << endl;
+    } else if (choix == 2) {
+        // controller.lancerModeGraphique();
+        cout << "Mode graphique" << endl;
+    } else {
+        std::cerr << "Choix invalide." << std::endl;
     }
 
-    return EXIT_SUCCESS;
+    return 0;
 }
