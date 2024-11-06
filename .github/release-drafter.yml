@@ -1,25 +1,67 @@
 name-template: 'v$NEXT_PATCH_VERSION'
 tag-template: 'v$NEXT_PATCH_VERSION'
+
 categories:
-  - title: '🚀 Nouvelles fonctionnalités'
-    labels:
-      - 'feature'
-      - 'enhancement'
+  - title: '🚀 Nouveautés'
+    labels: ['feat']
   - title: '🐛 Corrections de bugs'
-    labels:
-      - 'fix'
-      - 'bug'
+    labels: ['fix']
+  - title: '🔧 Réorganisation du code'
+    labels: ['refactor']
+  - title: '📖 Documentation'
+    labels: ['docs']
+  - title: '✨ Style'
+    labels: ['style']
+  - title: '🧪 Tests'
+    labels: ['test']
+  - title: '⚡ Performance'
+    labels: ['perf']
   - title: '🧹 Maintenance'
-    labels:
-      - 'chore'
-      - 'refactor'
-  - title: '📝 Documentation'
-    labels:
-      - 'docs'
+    labels: ['chore']
+  - title: '⚙️ Compilation/Build'
+    labels: ['build']
+
 change-template: '- $TITLE (#$NUMBER) par @$AUTHOR'
 template: |
-  ## Quoi de neuf ?
+  # 📦 Version $RELEASE_TITLE
 
-  $CHANGES
+  ## 🚀 Nouveautés
+  - Nouvelles fonctionnalités ajoutées pour enrichir l'expérience.
 
-  **Contributeurs :** $CONTRIBUTORS
+  ## 🐛 Corrections de bugs
+  - Améliorations pour corriger des comportements inattendus.
+
+  ## 🔧 Réorganisation du code (Refactoring)
+  - Modifications structurelles pour un code plus clair et maintenable.
+
+  ## 📖 Documentation
+  - Mises à jour pour la documentation du projet et le code.
+
+  ## ✨ Style
+  - Changements de style et de formatage pour améliorer la lisibilité.
+
+  ## ⚡ Performance
+  - Optimisations pour des performances améliorées.
+
+  ## 🧪 Tests
+  - Nouvelles vérifications et améliorations de couverture des tests.
+
+  ## 🧹 Tâches diverses et maintenance
+  - Mise à jour de l’environnement et des configurations.
+
+  ## ⚙️ Compilation et Build
+  - Configuration de compilation et gestion des dépendances.
+
+  ---
+
+  ### Scopes inclus dans cette release :
+  - **Model** : Modèle de données (classes Game, Grid, Cell)
+  - **View** : Vues ConsoleView et GraphicView
+  - **Controller** : Gestion des interactions entre modèle et vues
+  - **File** : Chargement et gestion des fichiers de grille
+  - **Config** : Configurations diverses (CMake, dépendances)
+
+  ### 👥 Contributeurs
+  $CONTRIBUTORS
+
+  **Voir les changements complets** : [Changelog complet](https://github.com/RiperPro03/LifeGame/compare/v$PREVIOUS_TAG...v$NEW_TAG)
