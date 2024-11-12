@@ -5,23 +5,23 @@ Cell::Cell(int row, int col, bool state) : row(row), col(col), state(state) {}
 
 // Getters
 int Cell::getRow() const {
-    return row;
+    return this->row;
 }
 
 int Cell::getCol() const {
-    return col;
+    return this->col;
 }
 
 bool Cell::getState() const {
-    return state;
+    return this->state;
 }
 
 // Setter pour l'état
 void Cell::setState(bool newState) {
-    state = newState;
+    this->state = newState;
 }
 
 // Méthode pour inverser l'état
 void Cell::toggleState() {
-    state = !state;
+    this->state = !state;
 }
