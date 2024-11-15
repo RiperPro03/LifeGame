@@ -20,13 +20,19 @@ bool Grid::loadFromFile(const string& chemin) {
     int hauteurTmp = 0;
 
     while (getline(fichier, ligne)) {
-        istringstream streamLigne(ligne);
         vector<Cell> rangee;
-        int valeur;
-        int col = 0;
 
-        while (streamLigne >> valeur) {
-            rangee.push_back(Cell(hauteurTmp, col, valeur == 1));
+        // Parcours chaque caractère de la ligne
+        for (int col = 0; col < ligne.size(); ++col) {
+            char valeur = ligne[col];
+            // Vérifie que la ligne contient uniquement '1' et '0'
+            if (valeur == '1' || valeur == '0') {
+                // Crée la cellule avec sa position (row, col) et l'état basé sur le caractère
+                rangee.emplace_back(hauteurTmp, col, valeur == '1');
+            } else {
+                cerr << "Erreur : caractere non valide dans le fichier (" << valeur << ")" << endl;
+                return false;
+            }
         }
 
         if (hauteurTmp == 0) {
@@ -54,9 +60,9 @@ Cell& Grid::getCell(int row, int col) {
 void Grid::afficherGrille() const {
     for (const auto& ligne : this->cells) {
         for (const auto& cell : ligne) {
-            std::cout << (cell.getState() ? "1 " : "0 ");
+            cout << (cell.getState() ? "1 " : "0 ");
         }
-        std::cout << "\n";
+        cout << "\n";
     }
 }
 
