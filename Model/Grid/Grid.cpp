@@ -7,11 +7,24 @@
 //Public -----------------------------------------
 
 Grid::Grid(const string& chemin) {
+
+    if (chemin.empty()) {
+        cerr << "Erreur : chemin de fichier vide." << endl;
+        this->stateGrid = false;
+        return;
+    }
+
+    if (chemin.substr(chemin.find_last_of('.') + 1) != "txt") {
+        cerr << "Erreur : fichier non valide." << endl;
+        this->stateGrid = false;
+        return;
+    }
+
     this->stateGrid = loadFromFile(chemin);
 }
 
-Cell& Grid::getCell(int row, int col) {
-    return cells[row][col];
+Cell& Grid::getCell(const int x, const int y) {
+    return cells[x][y];
 }
 
 void Grid::afficherGrille() const {
@@ -33,6 +46,24 @@ int Grid::getLength() const {
 
 int Grid::getWidth() const {
     return this->width;
+}
+
+int Grid::nbNeighbourCellAlive(const int row, const int col) {
+    int count = 0;
+    // Parcourir les voisins dans un carré 3x3 autour de la cellule (row, col)
+    for (int i = row - 1; i <= row + 1; ++i) {
+        for (int j = col - 1; j <= col + 1; ++j) {
+            // Vérifier que les coordonnées (i, j) sont dans les limites de la grille
+            if (i >= 0 && i < this->getWidth() && j >= 0 && j < this->getLength()) {
+                // Ne pas compter la cellule elle-même
+                if (i != row || j != col) {
+                    count += this->getCell(i, j).getState();
+                }
+            }
+        }
+    }
+
+    return count;
 }
 
 //Private -----------------------------------------

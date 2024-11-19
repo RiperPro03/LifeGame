@@ -20,8 +20,3 @@ bool Cell::getState() const {
 void Cell::setState(bool newState) {
     this->state = newState;
 }
-
-// Méthode pour inverser l'état
-void Cell::toggleState() {
-    this->state = !state;
-}

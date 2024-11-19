@@ -37,14 +37,15 @@ private:
 
 public:
     /**
-     * @brief Constructeur de la classe Grid à partir d'un fichier txt
-     *
-     * Ce constructeur initialise une instance de la classe Grid
-     * en chargeant la grille définie dans le fichier dont le chemin est fourni en paramètre.
-     * Il utilise la méthode loadFromFile pour tenter de charger la grille.
-     *
-     * @param path Le chemin du fichier txt contenant la grille
-     */
+    * @brief Constructeur de la classe Grid à partir d'un fichier txt.
+    *
+    * Ce constructeur initialise une instance de la classe Grid
+    * en chargeant la grille définie dans le fichier dont le chemin est fourni en paramètre.
+    * Si le chemin est vide ou le fichier n'est pas un fichier txt valide, une erreur est affichée,
+    * et l'initialisation de la grille échoue.
+    *
+    * @param chemin Le chemin du fichier txt contenant la grille.
+    */
     Grid(const string& path);
 
     void afficherGrille() const;
@@ -55,8 +56,8 @@ public:
      * Cette méthode retourne une référence à la cellule située aux coordonnées
      * spécifiées (row, col) dans la grille.
      *
-     * @param row La ligne de la cellule souhaitée (int).
-     * @param col La colonne de la cellule souhaitée (int).
+     * @param x La ligne de la cellule souhaitée (int).
+     * @param y La colonne de la cellule souhaitée (int).
      * @return Une référence à l'objet Cell correspondant.
      */
     Cell& getCell(int x, int y);
@@ -86,6 +87,8 @@ public:
      * @return true si la grille est chargée, false sinon.
      */
     bool isLoaded() const;
+
+    int nbNeighbourCellAlive(int row, int col);
 };
 
 
