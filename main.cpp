@@ -3,6 +3,7 @@
 #include "View/ConsoleView/ConsoleView.h"
 #include "View/GraphicView/GraphicView.h"
 #include "Controller/Controller.h"
+#include "Model/Grid/Grid.h"
 
 using namespace std;
 
@@ -12,13 +13,19 @@ int main() {
 
     // Demander à l'utilisateur de saisir le chemin du fichier de grille
     string chemin;
-    cout << "Entrez le chemin du fichier de grille : ";
-    cin >> chemin;
+    cout << "Entrez le chemin du fichier de la grille : ";
+    getline(cin, chemin);
     cout << chemin << endl;
-    // if (!jeu.chargerGrille(chemin)) {
-    //     cerr << "Erreur de chargement du fichier." << endl;
-    //     return 1;
-    // }
+
+    Grid grille(chemin);
+
+    if (!grille.isLoaded()) {
+        cerr << "Erreur lors du chargement de la grille. Fin du programme." << endl;
+        return 1;
+    }
+
+    cout << "Grille chargee avec succes :\n";
+    grille.afficherGrille();
 
     // Créer les vues (console et graphique)
     // ConsoleView consoleView(jeu);
@@ -28,19 +35,19 @@ int main() {
     // Controller controller(jeu, consoleView, graphicView);
 
     // Demander à l'utilisateur de choisir le mode d'affichage
-    int choix;
-    std::cout << "Choisissez le mode d'affichage : (1) Console, (2) Graphique : ";
-    std::cin >> choix;
-
-    if (choix == 1) {
-        // controller.lancerModeConsole();
-        cout << "Mode console" << endl;
-    } else if (choix == 2) {
-        // controller.lancerModeGraphique();
-        cout << "Mode graphique" << endl;
-    } else {
-        std::cerr << "Choix invalide." << std::endl;
-    }
+    // int choix;
+    // std::cout << "Choisissez le mode d'affichage : (1) Console, (2) Graphique : ";
+    // std::cin >> choix;
+    //
+    // if (choix == 1) {
+    //     // controller.lancerModeConsole();
+    //     cout << "Mode console" << endl;
+    // } else if (choix == 2) {
+    //     // controller.lancerModeGraphique();
+    //     cout << "Mode graphique" << endl;
+    // } else {
+    //     std::cerr << "Choix invalide." << std::endl;
+    // }
 
     return 0;
 }
