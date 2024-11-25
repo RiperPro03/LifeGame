@@ -1,7 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
-#include "../Grid/Grid.h"
 
+
+#include "../Grid/Grid.h"
+#include <vector>
+#include <iostream>
+#include <fstream>
+
+using namespace std;
 
 class Game {
 private:
@@ -10,7 +16,7 @@ private:
     bool state = true;
     int currentGen = 0;
 
-    void saveGen();
+    void saveGen(vector<vector<bool>>& grid) const;
 public:
     Game(int id, Grid& grid);
 
