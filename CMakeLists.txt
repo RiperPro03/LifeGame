@@ -28,3 +28,10 @@ add_executable(LifeGame main.cpp
         View/GraphicView/GraphicView.h)
 
 target_link_libraries(LifeGame sfml-graphics sfml-window sfml-system)
+
+# Option pour activer/désactiver les tests unitaires
+option(BUILD_TESTS "Build the unit tests" ON)
+
+if(BUILD_TESTS)
+    add_subdirectory(Test)
+endif()

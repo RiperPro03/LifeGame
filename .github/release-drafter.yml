@@ -1,0 +1,55 @@
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+
+categories:
+  - title: '🚀 Nouveautés'
+    labels: ['feat']
+  - title: '🐛 Corrections de bugs'
+    labels: ['fix']
+  - title: '🔧 Réorganisation du code'
+    labels: ['refactor']
+  - title: '📖 Documentation'
+    labels: ['docs']
+  - title: '✨ Style'
+    labels: ['style']
+  - title: '🧪 Tests'
+    labels: ['test']
+  - title: '⚡ Performance'
+    labels: ['perf']
+  - title: '🧹 Maintenance'
+    labels: ['chore']
+  - title: '⚙️ Compilation/Build'
+    labels: ['build']
+
+change-template: '- $TITLE (#$NUMBER) par @$AUTHOR'
+template: |
+  # 📦 Version - v$NEXT_PATCH_VERSION
+
+  ## 🌟 Quoi de neuf ?
+  $CHANGES
+
+  ---
+
+  ### 🔍 Détails des Scopes et Types de Commits
+  - **Types de commits :**
+    - `feat` : Nouveautés et fonctionnalités.
+    - `fix` : Corrections de bugs.
+    - `refactor` : Réorganisation du code sans changement fonctionnel.
+    - `docs` : Documentation et commentaires.
+    - `style` : Améliorations de style sans impact sur le code.
+    - `test` : Ajouts ou modifications de tests.
+    - `perf` : Optimisations de performance.
+    - `chore` : Maintenance et configuration.
+    - `build` : Configuration de build et gestion des dépendances.
+
+  - **Scopes** :
+    - `model` : Modèle de données, incluant les classes `Game`, `Grid`, et `Cell`.
+    - `view` : Vues `ConsoleView` et `GraphicView`.
+    - `controller` : Gestion des interactions entre le modèle et les vues.
+    - `file` : Chargement et gestion des fichiers.
+    - `config` : Configuration du projet et dépendances.
+
+  ---
+
+  ### 👥 Contributeurs
+  $CONTRIBUTORS
