@@ -50,17 +50,24 @@ int Grid::getWidth() const {
 
 int Grid::nbNeighbourCellAlive(const int row, const int col) {
     int count = 0;
-    // Parcourir les voisins dans un carré 3x3 autour de la cellule (row, col)
-    for (int i = row - 1; i <= row + 1; ++i) {
-        for (int j = col - 1; j <= col + 1; ++j) {
-            // Vérifier que les coordonnées (i, j) sont dans les limites de la grille
-            if (i >= 0 && i < this->getWidth() && j >= 0 && j < this->getLength()) {
-                // Ne pas compter la cellule elle-même
-                if (i != row || j != col) {
-                    count += this->getCell(i, j).getState();
-                }
+
+    // Déplacements relatifs pour accéder aux voisins
+    const int offsets[8][2] = {
+        {-1, -1}, {-1, 0}, {-1, 1}, // Voisin du haut
+        { 0, -1},             { 0, 1}, // Voisin de gauche et de droite
+        { 1, -1}, { 1, 0}, { 1, 1} // Voisin du bas
+    };
+
+    // Parcourir tous les déplacements relatifs
+    for (const auto& offset : offsets) {
+        int neighborRow = row + offset[0];
+        int neighborCol = col + offset[1];
+
+        // Vérifier que le voisin est dans les limites de la grille
+        if (neighborRow >= 0 && neighborRow < this->getWidth() &&
+            neighborCol >= 0 && neighborCol < this->getLength()) {
+            count += this->getCell(neighborRow, neighborCol).getState();
             }
-        }
     }
 
     return count;
