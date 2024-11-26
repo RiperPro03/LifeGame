@@ -27,15 +27,6 @@ Cell& Grid::getCell(const int x, const int y) {
     return cells[x][y];
 }
 
-void Grid::afficherGrille() const {
-    for (const auto& ligne : this->cells) {
-        for (const auto& cell : ligne) {
-            cout << (cell.getState() ? "1 " : "0 ");
-        }
-        cout << "\n";
-    }
-}
-
 bool Grid::isLoaded() const {
     return this->stateGrid;
 }

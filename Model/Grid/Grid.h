@@ -44,11 +44,9 @@ public:
     * Si le chemin est vide ou le fichier n'est pas un fichier txt valide, une erreur est affichée,
     * et l'initialisation de la grille échoue.
     *
-    * @param chemin Le chemin du fichier txt contenant la grille.
+    * @param path Le chemin du fichier txt contenant la grille.
     */
     Grid(const string& path);
-
-    void afficherGrille() const;
 
     /**
      * @brief Obtenir une référence à une cellule spécifique de la grille.
@@ -88,6 +86,15 @@ public:
      */
     bool isLoaded() const;
 
+    /**
+     * @brief Retourne le nombre de cellules voisines vivantes.
+     *
+     * Cette méthode retourne le nombre de cellules voisines vivantes de la cellule située aux coordonnées (row, col).
+     *
+     * @param row la ligne de la cellule
+     * @param col la colonne de la cellule
+     * @return int le nombre de cellules voisines vivantes.
+     */
     int nbNeighbourCellAlive(int row, int col);
 };
 

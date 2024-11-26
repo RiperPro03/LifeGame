@@ -9,7 +9,7 @@ private:
     Game& jeu;
 public:
     ConsoleView(Game& jeu);
-    void afficher();                // Affiche la grille dans la console
+    void afficher() const;
 };
 
 
