@@ -78,7 +78,7 @@ void Game::saveGen(vector<vector<bool>>& grid) const {
         filesystem::create_directory(folder);
     }
 
-    // Construire le chemin complet du fichier dans le dossier "out"
+    // Construire le chemin complet du fichier dans le dossier
     const string filename = folder + "/generation_" + to_string(this->getCurrentGen()) + ".txt";
     ofstream outFile(filename);
 
