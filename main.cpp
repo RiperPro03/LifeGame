@@ -27,6 +27,20 @@ int main() {
     cout << "Grille chargee avec succes :\n";
     grille.afficherGrille();
 
+    for (int row = 0; row < grille.getWidth(); ++row) {
+        for (int col = 0; col < grille.getLength(); ++col) {
+            const int aliveNeighbours = grille.nbNeighbourCellAlive(row, col);
+            cout << "Cellule (" << row << ", " << col << ") : " << aliveNeighbours << " voisins vivants" << endl;
+            if (grille.getCell(row, col).getState()) { // Si cellule vivante
+                if (aliveNeighbours < 2 || aliveNeighbours > 3)
+                    cout << "Cellule (" << row << ", " << col << ") meurt" << endl;
+            } else { // Si cellule morte
+                if (aliveNeighbours == 3)
+                    cout << "Cellule (" << row << ", " << col << ") nait" << endl;
+            }
+        }
+    }
+
     // Créer les vues (console et graphique)
     // ConsoleView consoleView(jeu);
     // GraphicView graphicView(jeu);  // Taille de cellule pour l'affichage graphique
