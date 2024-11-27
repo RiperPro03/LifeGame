@@ -12,7 +12,6 @@ using namespace std;
 
 class Game {
 private:
-    int id = 0;
     Grid& grid;
     bool state = true;
     int currentGen = 0;
@@ -27,10 +26,9 @@ public:
     /**
      * @brief Constructeur de la classe Game
      *
-     * @param id
      * @param grid
      */
-    Game(int id, Grid& grid);
+    Game(Grid& grid);
 
     /**
      * @brief Permet de passer à la génération suivante

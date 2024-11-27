@@ -2,8 +2,8 @@
 
 //Public -----------------------------------------
 
-Game::Game(int id, Grid& grid)
-    : id(id), grid(grid) {}
+Game::Game(Grid& grid)
+    : grid(grid) {}
 
 void Game::nextGen() {
     Grid& currentGrid = this->grid;
@@ -50,8 +50,8 @@ void Game::nextGen() {
         }
     }
 
-    // Sauvegarder la génération et incrémenter le compteur de générations
     this->currentGen++;
+    // Sauvegarder la génération actuelle dans un fichier texte
     this->saveGen(tempGrid);
 }
 

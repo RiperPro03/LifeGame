@@ -13,8 +13,8 @@ private:
     GraphicView& graphicView;
 public:
     Controller(Game& jeu, ConsoleView& consoleView, GraphicView& graphicView);
-    void lancerModeConsole() const;   // Lance le mode console
-    void lancerModeGraphique(); // Lance le mode graphique
+    void playConsoleMode() const;   // Lance le mode console
+    void playGraphicMode() const; // Lance le mode graphique
 };
 
 

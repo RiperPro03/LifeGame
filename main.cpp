@@ -8,8 +8,6 @@
 using namespace std;
 
 int main() {
-    // initialiser le jeu
-    // Game jeu;
 
     // Demander à l'utilisateur de saisir le chemin du fichier de grille
     string chemin;
@@ -24,22 +22,14 @@ int main() {
         return 1;
     }
 
-    cout << "Grille chargee avec succes :\n";
-    grille.afficherGrille();
+    Game jeu(grille);
+    ConsoleView consoleView(jeu);
+    GraphicView graphicView(jeu, 10);
+    Controller controller(jeu, consoleView, graphicView);
 
-    for (int row = 0; row < grille.getWidth(); ++row) {
-        for (int col = 0; col < grille.getLength(); ++col) {
-            const int aliveNeighbours = grille.nbNeighbourCellAlive(row, col);
-            cout << "Cellule (" << row << ", " << col << ") : " << aliveNeighbours << " voisins vivants" << endl;
-            if (grille.getCell(row, col).getState()) { // Si cellule vivante
-                if (aliveNeighbours < 2 || aliveNeighbours > 3)
-                    cout << "Cellule (" << row << ", " << col << ") meurt" << endl;
-            } else { // Si cellule morte
-                if (aliveNeighbours == 3)
-                    cout << "Cellule (" << row << ", " << col << ") nait" << endl;
-            }
-        }
-    }
+
+    // controller.playModeConsole();
+
 
     // Créer les vues (console et graphique)
     // ConsoleView consoleView(jeu);

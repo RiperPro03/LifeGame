@@ -7,7 +7,7 @@ void ConsoleView::afficher() const {
     auto& grid = this->jeu.getGrid();
     for (auto row = 0; row < grid.getWidth(); ++row) {
         for (auto col = 0; col < grid.getLength(); ++col) {
-            cout << (grid.getCell(row, col).getState() ? '1' : '0');
+            cout << (grid.getCell(row, col).getState() ? '#' : 'O');
         }
         cout << endl;
     }
