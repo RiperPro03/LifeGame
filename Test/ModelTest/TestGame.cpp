@@ -6,7 +6,7 @@
 // Test pour le constructeur de Game
 TEST_CASE(TestGameConstructor) {
     Grid grid("../../grille_test.txt");
-    Game game(1, grid);
+    Game game(grid);
 
     ASSERT_EQ(0, game.getCurrentGen());
     ASSERT_TRUE(game.getGrid().isLoaded());
@@ -15,7 +15,7 @@ TEST_CASE(TestGameConstructor) {
 //Test pour la méthode nextGen
 TEST_CASE(TestGameNextGen) {
     Grid grid("../../grille_test.txt");
-    Game game(1, grid);
+    Game game(grid);
 
     int initialGen = game.getCurrentGen();
     game.nextGen();
@@ -40,7 +40,7 @@ TEST_CASE(TestGameNextGen) {
 // Test pour vérifier si le jeu est terminé
 TEST_CASE(TestGameIsFinished) {
     Grid grid("../../grille_test.txt");
-    Game game(1, grid);
+    Game game(grid);
 
     ASSERT_TRUE(!game.isFinished());
 
@@ -64,7 +64,7 @@ TEST_CASE(TestGameStopsWhenStable) {
 
     // Charger la grille et initialiser le jeu
     Grid grid(stableGridFile);
-    Game game(1, grid);
+    Game game(grid);
 
     ASSERT_TRUE(!game.isFinished()); // Vérifie que le jeu n'est pas terminé au début
 
@@ -89,7 +89,7 @@ TEST_CASE(TestGameStopsWhenAllDead) {
 
     // Charger la grille et initialiser le jeu
     Grid grid(deadGridFile);
-    Game game(1, grid);
+    Game game(grid);
 
     ASSERT_TRUE(!game.isFinished()); // Vérifie que le jeu n'est pas terminé au début
 
