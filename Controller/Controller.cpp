@@ -23,8 +23,7 @@ void Controller::playGraphicMode() const {
         while (!jeu.isFinished()) {
             graphicView.display(window);
             jeu.nextGen();
+            sf::sleep(sf::milliseconds(100));
         }
-
-        sf::sleep(sf::milliseconds(100));
     }
 }

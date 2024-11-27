@@ -1,6 +1,6 @@
 #include "GraphicView.h"
 
-GraphicView::GraphicView(Game& jeu, int sizeCell) : jeu(jeu), sizeCell(sizeCell) {}
+GraphicView::GraphicView(Game& jeu, int cellSize) : jeu(jeu), cellSize(cellSize) {}
 
 void GraphicView::display(sf::RenderWindow &window) {
     // Récupérer la grille depuis l'objet Game
@@ -10,7 +10,7 @@ void GraphicView::display(sf::RenderWindow &window) {
     window.clear();
 
     // Créer une cellule graphique (rectangle) avec une taille ajustée
-    sf::RectangleShape cell(sf::Vector2f(static_cast<float>(this->sizeCell) - 1.0f, static_cast<float>(this->sizeCell) - 1.0f));
+    sf::RectangleShape cell(sf::Vector2f(static_cast<float>(this->cellSize) - 1.0f, static_cast<float>(this->cellSize) - 1.0f));
 
     // Parcourir chaque cellule de la grille
     for (int row = 0; row < grid.getWidth(); ++row) {
@@ -18,7 +18,7 @@ void GraphicView::display(sf::RenderWindow &window) {
             // Vérifier si la cellule est vivante
             if (grid.getCell(row, col).getState()) {
                 // Positionner le rectangle à l'emplacement de la cellule dans la fenêtre
-                cell.setPosition(static_cast<float>(col) * static_cast<float>(this->sizeCell), static_cast<float>(row) * static_cast<float>(this->sizeCell));
+                cell.setPosition(static_cast<float>(col) * static_cast<float>(this->cellSize), static_cast<float>(row) * static_cast<float>(this->cellSize));
 
 
                 // Dessiner la cellule sur la fenêtre

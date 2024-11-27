@@ -29,6 +29,7 @@ int main() {
 
 
     // controller.playModeConsole();
+    controller.playGraphicMode();
 
 
     // Créer les vues (console et graphique)
