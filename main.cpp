@@ -8,46 +8,60 @@
 using namespace std;
 
 int main() {
-    // initialiser le jeu
-    // Game jeu;
+
+    const int cellSize = 10;
+    string chemin;
+    Grid grille;
 
     // Demander à l'utilisateur de saisir le chemin du fichier de grille
-    string chemin;
-    cout << "Entrez le chemin du fichier de la grille : ";
-    getline(cin, chemin);
-    cout << chemin << endl;
+    while (true) {
+        cout << "Entrez le chemin du fichier de la grille ('exit' pour quitter) : ";
+        getline(cin, chemin);
 
-    Grid grille(chemin);
+        if (chemin == "exit") {
+            cout << "Programme termine" << endl;
+            return 0; // Quitter le programme
+        }
 
-    if (!grille.isLoaded()) {
-        cerr << "Erreur lors du chargement de la grille. Fin du programme." << endl;
-        return 1;
+        grille = Grid(chemin);
+
+        if (grille.isLoaded()) {
+            cout << "Grille chargee avec succes :\n";
+            break;
+        }
     }
 
-    cout << "Grille chargee avec succes :\n";
-    grille.afficherGrille();
-
-    // Créer les vues (console et graphique)
-    // ConsoleView consoleView(jeu);
-    // GraphicView graphicView(jeu);  // Taille de cellule pour l'affichage graphique
-
-    // Initialiser le contrôleur
-    // Controller controller(jeu, consoleView, graphicView);
+    Game jeu(grille);
+    ConsoleView consoleView(jeu);
+    GraphicView graphicView(jeu, cellSize);
+    const Controller controller(jeu, consoleView, graphicView);
 
     // Demander à l'utilisateur de choisir le mode d'affichage
-    // int choix;
-    // std::cout << "Choisissez le mode d'affichage : (1) Console, (2) Graphique : ";
-    // std::cin >> choix;
-    //
-    // if (choix == 1) {
-    //     // controller.lancerModeConsole();
-    //     cout << "Mode console" << endl;
-    // } else if (choix == 2) {
-    //     // controller.lancerModeGraphique();
-    //     cout << "Mode graphique" << endl;
-    // } else {
-    //     std::cerr << "Choix invalide." << std::endl;
-    // }
+    int choix;
+    while (true) {
+        cout << "Choisissez le mode d'affichage : (1) Console, (2) Graphique, (0) Quitter : ";
+        cin >> choix;
 
-    return 0;
+        switch (choix) {
+            case 0:
+                cout << "Programme termine" << endl;
+                return 0; // Quitter le programme
+
+            case 1:
+                cout << "Mode console" << endl;
+                controller.playConsoleMode();
+                return 0;
+
+            case 2:
+                cout << "Mode graphique" << endl;
+                controller.playGraphicMode(250);
+                return 0;
+
+            default:
+                cout << "Choix invalide. Veuillez entrer 1, 2 ou 0 pour quitter." << endl;
+                cin.clear(); // Effacer l'état d'erreur
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignorer les caractères restants dans le flux
+                break;
+        }
+    }
 }

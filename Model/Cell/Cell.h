@@ -47,13 +47,6 @@ public:
      */
     void setState(bool state);
 
-    // Méthodes
-
-    /**
-     * Inverse l'état de la cellule
-     */
-    void toggleState();
-
 };
 
 

@@ -7,20 +7,24 @@
 //Public -----------------------------------------
 
 Grid::Grid(const string& chemin) {
+
+    if (chemin.empty()) {
+        cout << "Erreur : chemin de fichier vide." << endl;
+        this->stateGrid = false;
+        return;
+    }
+
+    if (chemin.substr(chemin.find_last_of('.') + 1) != "txt") {
+        cout << "Erreur : fichier non valide." << endl;
+        this->stateGrid = false;
+        return;
+    }
+
     this->stateGrid = loadFromFile(chemin);
 }
 
-Cell& Grid::getCell(int row, int col) {
-    return cells[row][col];
-}
-
-void Grid::afficherGrille() const {
-    for (const auto& ligne : this->cells) {
-        for (const auto& cell : ligne) {
-            cout << (cell.getState() ? "1 " : "0 ");
-        }
-        cout << "\n";
-    }
+Cell& Grid::getCell(const int x, const int y) {
+    return cells[x][y];
 }
 
 bool Grid::isLoaded() const {
@@ -35,12 +39,37 @@ int Grid::getWidth() const {
     return this->width;
 }
 
+int Grid::nbNeighbourCellAlive(const int row, const int col) {
+    int count = 0;
+
+    // Déplacements relatifs pour accéder aux voisins
+    const int offsets[8][2] = {
+        {-1, -1}, {-1, 0}, {-1, 1}, // Voisin du haut
+        { 0, -1},             { 0, 1}, // Voisin de gauche et de droite
+        { 1, -1}, { 1, 0}, { 1, 1} // Voisin du bas
+    };
+
+    // Parcourir tous les déplacements relatifs
+    for (const auto& offset : offsets) {
+        int neighborRow = row + offset[0];
+        int neighborCol = col + offset[1];
+
+        // Vérifier que le voisin est dans les limites de la grille
+        if (neighborRow >= 0 && neighborRow < this->getWidth() &&
+            neighborCol >= 0 && neighborCol < this->getLength()) {
+            count += this->getCell(neighborRow, neighborCol).getState();
+            }
+    }
+
+    return count;
+}
+
 //Private -----------------------------------------
 
 bool Grid::loadFromFile(const string& chemin) {
     ifstream fichier(chemin);
     if (!fichier.is_open()) {
-        cerr << "Erreur : impossible d'ouvrir le fichier " << chemin << endl;
+        cout << "Erreur : impossible d'ouvrir le fichier " << chemin << endl;
         return false;
     }
 
@@ -51,7 +80,7 @@ bool Grid::loadFromFile(const string& chemin) {
     while (getline(fichier, ligne)) {
         // Valider toute la ligne avant traitement
         if (!ranges::all_of(ligne, [](char c) { return c == '1' || c == '0'; })) {
-            cerr << "Erreur : caractere non valide dans le fichier." << endl;
+            cout << "Erreur : caractere non valide dans le fichier." << endl;
             return false;
         }
 
@@ -74,7 +103,7 @@ bool Grid::loadFromFile(const string& chemin) {
     // Vérifier que toutes les lignes ont la même taille
     if (!ranges::all_of(cellulesTmp,
                         [this](const vector<Cell>& row) { return row.size() == this->getLength(); })) {
-        cerr << "Erreur : lignes de longueurs inégales dans le fichier." << endl;
+        cout << "Erreur : lignes de longueurs inégales dans le fichier." << endl;
         return false;
                      }
 

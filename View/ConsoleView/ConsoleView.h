@@ -3,13 +3,16 @@
 
 
 #include "../../Model/Game/Game.h"
+#include <iostream>
+
+using namespace std;
 
 class ConsoleView {
 private:
     Game& jeu;
 public:
     ConsoleView(Game& jeu);
-    void afficher();                // Affiche la grille dans la console
+    void afficher() const;
 };
 
 
