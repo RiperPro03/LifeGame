@@ -9,6 +9,8 @@ using namespace std;
 
 int main() {
 
+    const int cellSize = 10;
+
     // Demander à l'utilisateur de saisir le chemin du fichier de grille
     string chemin;
     cout << "Entrez le chemin du fichier de la grille : ";
@@ -24,35 +26,23 @@ int main() {
 
     Game jeu(grille);
     ConsoleView consoleView(jeu);
-    GraphicView graphicView(jeu, 10);
+    GraphicView graphicView(jeu, cellSize);
     Controller controller(jeu, consoleView, graphicView);
 
-
-    // controller.playModeConsole();
-    controller.playGraphicMode();
-
-
-    // Créer les vues (console et graphique)
-    // ConsoleView consoleView(jeu);
-    // GraphicView graphicView(jeu);  // Taille de cellule pour l'affichage graphique
-
-    // Initialiser le contrôleur
-    // Controller controller(jeu, consoleView, graphicView);
-
     // Demander à l'utilisateur de choisir le mode d'affichage
-    // int choix;
-    // std::cout << "Choisissez le mode d'affichage : (1) Console, (2) Graphique : ";
-    // std::cin >> choix;
-    //
-    // if (choix == 1) {
-    //     // controller.lancerModeConsole();
-    //     cout << "Mode console" << endl;
-    // } else if (choix == 2) {
-    //     // controller.lancerModeGraphique();
-    //     cout << "Mode graphique" << endl;
-    // } else {
-    //     std::cerr << "Choix invalide." << std::endl;
-    // }
+    int choix;
+    std::cout << "Choisissez le mode d'affichage : (1) Console, (2) Graphique : ";
+    std::cin >> choix;
+
+    if (choix == 1) {
+        cout << "Mode console" << endl;
+        controller.playConsoleMode();
+    } else if (choix == 2) {
+        cout << "Mode graphique" << endl;
+        controller.playGraphicMode(250);
+    } else {
+        std::cerr << "Choix invalide." << std::endl;
+    }
 
     return 0;
 }

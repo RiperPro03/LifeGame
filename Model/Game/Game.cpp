@@ -6,6 +6,10 @@ Game::Game(Grid& grid)
     : grid(grid) {}
 
 void Game::nextGen() {
+    if (this->state == false) {
+        cerr << "Le jeu est deja termine." << endl;
+        return;
+    }
     Grid& currentGrid = this->grid;
 
     // Créer une grille temporaire pour stocker les futurs états
@@ -65,6 +69,10 @@ bool Game::isFinished() const {
 
 Grid& Game::getGrid() const {
     return grid;
+}
+
+void Game::setState(bool state) {
+    this->state = state;
 }
 
 //Private -----------------------------------------

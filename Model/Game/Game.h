@@ -58,6 +58,15 @@ public:
      * @return const Grid& la grille du jeu
      */
      Grid& getGrid() const;
+
+    /**
+     * @brief Permet de changer l'état du jeu
+     *
+     * Permet de mettre fin au jeu si state est false
+     *
+     * @param state le nouvel état du jeu
+     */
+    void setState(bool state);
 };
 
 

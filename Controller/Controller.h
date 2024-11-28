@@ -14,7 +14,7 @@ private:
 public:
     Controller(Game& jeu, ConsoleView& consoleView, GraphicView& graphicView);
     void playConsoleMode() const;   // Lance le mode console
-    void playGraphicMode() const; // Lance le mode graphique
+    void playGraphicMode(int delay) const; // Lance le mode graphique
 };
 
 

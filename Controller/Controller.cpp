@@ -10,20 +10,22 @@ void Controller::playConsoleMode() const {
     }
 }
 
-void Controller::playGraphicMode() const {
-    sf::RenderWindow window(sf::VideoMode(jeu.getGrid().getWidth() * graphicView.getCellSize(), jeu.getGrid().getLength() * graphicView.getCellSize()), "Game of Life");
+void Controller::playGraphicMode(int delay) const {
+    sf::RenderWindow window(sf::VideoMode(jeu.getGrid().getLength() * graphicView.getCellSize(), jeu.getGrid().getWidth() * graphicView.getCellSize()), "Game of Life");
 
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
+                jeu.setState(false);
                 window.close();
+            }
         }
 
-        while (!jeu.isFinished()) {
+        if (!jeu.isFinished()) {
             graphicView.display(window);
             jeu.nextGen();
-            sf::sleep(sf::milliseconds(100));
+            sf::sleep(sf::milliseconds(delay));
         }
     }
 }
