@@ -36,6 +36,8 @@ private:
     bool loadFromFile(const string& path);
 
 public:
+    Grid() = default;
+
     /**
     * @brief Constructeur de la classe Grid à partir d'un fichier txt.
     *

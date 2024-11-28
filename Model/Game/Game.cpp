@@ -7,7 +7,7 @@ Game::Game(Grid& grid)
 
 void Game::nextGen() {
     if (this->state == false) {
-        cerr << "Le jeu est deja termine." << endl;
+        cout << "Le jeu est deja termine." << endl;
         return;
     }
     Grid& currentGrid = this->grid;
@@ -91,7 +91,7 @@ void Game::saveGen(vector<vector<bool>>& grid) const {
     ofstream outFile(filename);
 
     if (!outFile.is_open()) {
-        cerr << "Erreur lors de l'ouverture du fichier pour la sauvegarde." << endl;
+        cout << "Erreur lors de l'ouverture du fichier pour la sauvegarde." << endl;
         return;
     }
 
