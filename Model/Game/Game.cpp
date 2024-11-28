@@ -2,10 +2,14 @@
 
 //Public -----------------------------------------
 
-Game::Game(int id, Grid& grid)
-    : id(id), grid(grid) {}
+Game::Game(Grid& grid)
+    : grid(grid) {}
 
 void Game::nextGen() {
+    if (this->state == false) {
+        cout << "Le jeu est deja termine." << endl;
+        return;
+    }
     Grid& currentGrid = this->grid;
 
     // Créer une grille temporaire pour stocker les futurs états
@@ -50,8 +54,8 @@ void Game::nextGen() {
         }
     }
 
-    // Sauvegarder la génération et incrémenter le compteur de générations
     this->currentGen++;
+    // Sauvegarder la génération actuelle dans un fichier texte
     this->saveGen(tempGrid);
 }
 
@@ -65,6 +69,10 @@ bool Game::isFinished() const {
 
 Grid& Game::getGrid() const {
     return grid;
+}
+
+void Game::setState(bool state) {
+    this->state = state;
 }
 
 //Private -----------------------------------------
@@ -83,7 +91,7 @@ void Game::saveGen(vector<vector<bool>>& grid) const {
     ofstream outFile(filename);
 
     if (!outFile.is_open()) {
-        cerr << "Erreur lors de l'ouverture du fichier pour la sauvegarde." << endl;
+        cout << "Erreur lors de l'ouverture du fichier pour la sauvegarde." << endl;
         return;
     }
 

@@ -7,12 +7,15 @@
 
 class GraphicView {
 private:
-    Game& jeu;                                   // Référence au modèle du jeu de la vie
-    int sizeCell;                                // Taille de chaque cellule dans la grille (en pixels)
+    Game& jeu;
+    int cellSize;
 public:
-    GraphicView(Game& jeu, int sizeCell);  // Constructeur avec référence au modèle et taille des cellules
+    GraphicView(Game& jeu, int cellSize);  // Constructeur avec référence au modèle et taille des cellules
 
-    void afficher(sf::RenderWindow& window);           // Affiche la grille dans une fenêtre SFML
+    void display(sf::RenderWindow& window);           // Affiche la grille dans une fenêtre SFML
+
+    int getCellSize() const;  // Obtenir la taille des cellules
+
 };
 
 

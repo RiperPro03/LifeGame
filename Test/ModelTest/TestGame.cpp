@@ -5,8 +5,17 @@
 
 // Test pour le constructeur de Game
 TEST_CASE(TestGameConstructor) {
-    Grid grid("../../grille_test.txt");
-    Game game(1, grid);
+    // Exemple de grille stable (bloc 2x2 vivant au centre)
+    string stableGridFile = "stable_grid.txt";
+    ofstream outFile(stableGridFile);
+    outFile << "00000\n"
+            << "00110\n"
+            << "00110\n"
+            << "00000\n"
+            << "10000\n";
+    outFile.close();
+    Grid grid(stableGridFile);
+    Game game(grid);
 
     ASSERT_EQ(0, game.getCurrentGen());
     ASSERT_TRUE(game.getGrid().isLoaded());
@@ -14,8 +23,16 @@ TEST_CASE(TestGameConstructor) {
 
 //Test pour la méthode nextGen
 TEST_CASE(TestGameNextGen) {
-    Grid grid("../../grille_test.txt");
-    Game game(1, grid);
+    string stableGridFile = "stable_grid.txt";
+    ofstream outFile(stableGridFile);
+    outFile << "00000\n"
+            << "00110\n"
+            << "00110\n"
+            << "00000\n"
+            << "10000\n";
+    outFile.close();
+    Grid grid(stableGridFile);
+    Game game(grid);
 
     int initialGen = game.getCurrentGen();
     game.nextGen();
@@ -23,7 +40,7 @@ TEST_CASE(TestGameNextGen) {
     ASSERT_EQ(initialGen + 1, game.getCurrentGen());
 
     // Vérifie l'état des cellules après une génération (dépend des règles du jeu)
-    Cell& cell = grid.getCell(1, 1);
+    Cell& cell = grid.getCell(2, 3);
     ASSERT_TRUE(cell.getState());
 
     std::ifstream savedFile("out/generation_1.txt");
@@ -39,8 +56,16 @@ TEST_CASE(TestGameNextGen) {
 
 // Test pour vérifier si le jeu est terminé
 TEST_CASE(TestGameIsFinished) {
-    Grid grid("../../grille_test.txt");
-    Game game(1, grid);
+    string stableGridFile = "stable_grid.txt";
+    ofstream outFile(stableGridFile);
+    outFile << "00000\n"
+            << "00110\n"
+            << "00110\n"
+            << "00000\n"
+            << "10000\n";
+    outFile.close();
+    Grid grid(stableGridFile);
+    Game game(grid);
 
     ASSERT_TRUE(!game.isFinished());
 
@@ -64,7 +89,7 @@ TEST_CASE(TestGameStopsWhenStable) {
 
     // Charger la grille et initialiser le jeu
     Grid grid(stableGridFile);
-    Game game(1, grid);
+    Game game(grid);
 
     ASSERT_TRUE(!game.isFinished()); // Vérifie que le jeu n'est pas terminé au début
 
@@ -89,7 +114,7 @@ TEST_CASE(TestGameStopsWhenAllDead) {
 
     // Charger la grille et initialiser le jeu
     Grid grid(deadGridFile);
-    Game game(1, grid);
+    Game game(grid);
 
     ASSERT_TRUE(!game.isFinished()); // Vérifie que le jeu n'est pas terminé au début
 

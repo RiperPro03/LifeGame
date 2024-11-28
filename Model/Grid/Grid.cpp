@@ -9,13 +9,13 @@
 Grid::Grid(const string& chemin) {
 
     if (chemin.empty()) {
-        cerr << "Erreur : chemin de fichier vide." << endl;
+        cout << "Erreur : chemin de fichier vide." << endl;
         this->stateGrid = false;
         return;
     }
 
     if (chemin.substr(chemin.find_last_of('.') + 1) != "txt") {
-        cerr << "Erreur : fichier non valide." << endl;
+        cout << "Erreur : fichier non valide." << endl;
         this->stateGrid = false;
         return;
     }
@@ -25,15 +25,6 @@ Grid::Grid(const string& chemin) {
 
 Cell& Grid::getCell(const int x, const int y) {
     return cells[x][y];
-}
-
-void Grid::afficherGrille() const {
-    for (const auto& ligne : this->cells) {
-        for (const auto& cell : ligne) {
-            cout << (cell.getState() ? "1 " : "0 ");
-        }
-        cout << "\n";
-    }
 }
 
 bool Grid::isLoaded() const {
@@ -78,7 +69,7 @@ int Grid::nbNeighbourCellAlive(const int row, const int col) {
 bool Grid::loadFromFile(const string& chemin) {
     ifstream fichier(chemin);
     if (!fichier.is_open()) {
-        cerr << "Erreur : impossible d'ouvrir le fichier " << chemin << endl;
+        cout << "Erreur : impossible d'ouvrir le fichier " << chemin << endl;
         return false;
     }
 
@@ -89,7 +80,7 @@ bool Grid::loadFromFile(const string& chemin) {
     while (getline(fichier, ligne)) {
         // Valider toute la ligne avant traitement
         if (!ranges::all_of(ligne, [](char c) { return c == '1' || c == '0'; })) {
-            cerr << "Erreur : caractere non valide dans le fichier." << endl;
+            cout << "Erreur : caractere non valide dans le fichier." << endl;
             return false;
         }
 
@@ -112,7 +103,7 @@ bool Grid::loadFromFile(const string& chemin) {
     // Vérifier que toutes les lignes ont la même taille
     if (!ranges::all_of(cellulesTmp,
                         [this](const vector<Cell>& row) { return row.size() == this->getLength(); })) {
-        cerr << "Erreur : lignes de longueurs inégales dans le fichier." << endl;
+        cout << "Erreur : lignes de longueurs inégales dans le fichier." << endl;
         return false;
                      }
 
