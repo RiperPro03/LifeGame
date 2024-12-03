@@ -4,6 +4,7 @@
 #include "View/GraphicView/GraphicView.h"
 #include "Controller/Controller.h"
 #include "Model/Grid/Grid.h"
+#include "View/ConfigView/ConfigView.h"
 
 using namespace std;
 
@@ -12,6 +13,12 @@ int main() {
     const int cellSize = 10;
     string chemin;
     Grid grille;
+
+    ConfigView configView;
+
+    configView.configView();
+
+
 
     // Demander à l'utilisateur de saisir le chemin du fichier de grille
     while (true) {
