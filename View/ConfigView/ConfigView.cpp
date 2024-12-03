@@ -93,7 +93,7 @@ void ConfigView::configView() {
 
 void ConfigView::drawView() {
     int windowSize = cellSize * gridSize;
-    sf::RenderWindow window(sf::VideoMode(windowSize, windowSize), "Grid Editor");
+    sf::RenderWindow window(sf::VideoMode(windowSize, windowSize), "Editeur de grille");
     window.setFramerateLimit(60);
 
     std::vector<std::vector<int>> grid(gridSize, std::vector<int>(gridSize, 0));
@@ -119,6 +119,19 @@ void ConfigView::drawView() {
                         }
                     }
 
+                    if (event.key.code == sf::Keyboard::Enter) {
+                    // Sauvegarde la grille
+                    std::ofstream outFile("grille_test.txt");
+                        if (outFile.is_open()) {
+                            for (const auto& row : grid) {
+                                for (int cell : row) {
+                                    outFile << cell;
+                                }
+                                outFile << "\n";
+                            }
+                            std::cout << "Grille sauvegardée dans grille_test.txt" << std::endl;
+                        }
+                    }
                     // Gestion des divers patern de base
                     if (event.key.code == sf::Keyboard::G) { // Glider
                     std::vector<std::vector<int>> glider = {
