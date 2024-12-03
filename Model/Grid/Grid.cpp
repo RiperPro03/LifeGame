@@ -39,7 +39,33 @@ int Grid::getLength() const {
 int Grid::getWidth() const {
     return this->width;
 }
+// Grille standard
+// int Grid::nbNeighbourCellAlive(const int row, const int col) {
+//     int count = 0;
+//
+//     // Déplacements relatifs pour accéder aux voisins
+//     const int offsets[8][2] = {
+//         {-1, -1}, {-1, 0}, {-1, 1}, // Voisin du haut
+//         { 0, -1},             { 0, 1}, // Voisin de gauche et de droite
+//         { 1, -1}, { 1, 0}, { 1, 1} // Voisin du bas
+//     };
+//
+//     // Parcourir tous les déplacements relatifs
+//     for (const auto& offset : offsets) {
+//         int neighborRow = row + offset[0];
+//         int neighborCol = col + offset[1];
+//
+//         // Vérifier que le voisin est dans les limites de la grille
+//         if (neighborRow >= 0 && neighborRow < this->getWidth() &&
+//             neighborCol >= 0 && neighborCol < this->getLength()) {
+//             count += this->getCell(neighborRow, neighborCol).getState();
+//             }
+//     }
+//
+//     return count;
+// }
 
+// Grille torique
 int Grid::nbNeighbourCellAlive(const int row, const int col) {
     int count = 0;
 
@@ -50,16 +76,13 @@ int Grid::nbNeighbourCellAlive(const int row, const int col) {
         { 1, -1}, { 1, 0}, { 1, 1} // Voisin du bas
     };
 
-    // Parcourir tous les déplacements relatifs
     for (const auto& offset : offsets) {
-        int neighborRow = row + offset[0];
-        int neighborCol = col + offset[1];
+        // Calculer la position du voisin avec la logique torique
+        int neighborRow = (row + offset[0] + this->width) % this->width;
+        int neighborCol = (col + offset[1] + this->lentgh) % this->lentgh;
 
-        // Vérifier que le voisin est dans les limites de la grille
-        if (neighborRow >= 0 && neighborRow < this->getWidth() &&
-            neighborCol >= 0 && neighborCol < this->getLength()) {
-            count += this->getCell(neighborRow, neighborCol).getState();
-            }
+        // Compter l'état vivant du voisin
+        count += this->getCell(neighborRow, neighborCol).getState();
     }
 
     return count;
