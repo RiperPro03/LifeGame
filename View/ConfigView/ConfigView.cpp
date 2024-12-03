@@ -128,7 +128,7 @@ void ConfigView::drawView() {
                         }
                     }
 
-                    if (event.key.code == sf::Keyboard::Insert) {
+                    if (event.key.code == sf::Keyboard::Enter) {
                     // Sauvegarde la grille
                     std::ofstream outFile(this->path);
                         if (outFile.is_open()) {
@@ -139,6 +139,8 @@ void ConfigView::drawView() {
                                 outFile << "\n";
                             }
                             std::cout << "Grille sauvegardée dans " << this->path << std::endl;
+                            outFile.close();
+                            window.close();
                         }
                     }
                     // Gestion des divers patern de base
