@@ -1,9 +1,9 @@
 #include "ConfigView.h"
 
 void ConfigView::configView() {
-    sf::RenderWindow configWindow(sf::VideoMode(configWindowWidth, configWindowHeight), "Grid Configuration");
+    sf::RenderWindow configWindow(sf::VideoMode(configWindowWidth, configWindowHeight), "Configuration de la grille");
 
-    // Create sliders and handles
+    // Création des "sliders" qui permettront la sélection de la taille de la grille et des cellules
     sf::RectangleShape gridSizeSlider(sf::Vector2f(200, 10));
     gridSizeSlider.setPosition(100, 50);
     gridSizeSlider.setFillColor(sf::Color::White);
@@ -18,10 +18,10 @@ void ConfigView::configView() {
     sf::CircleShape cellSizeHandle(10);
     cellSizeHandle.setFillColor(sf::Color::Red);
 
-    // Load font
+    // Chargement de la police
     sf::Font font;
     if (!font.loadFromFile("arial.ttf")) {
-        std::cerr << "Error: Unable to load font 'arial.ttf'!" << std::endl;
+        std::cout << "Erreur: Police 'arial.ttf' non trouvée !" << std::endl;
         return;
     }
 
@@ -35,7 +35,7 @@ void ConfigView::configView() {
                 configWindow.close();
             }
 
-            // Handle slider interaction
+            // Gère les intéraction de l'utilisateur avec les sliders
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(configWindow);
                 if (event.mouseButton.button == sf::Mouse::Left) {
@@ -57,27 +57,27 @@ void ConfigView::configView() {
                 if (draggingGridSize) {
                     int x = std::clamp(mousePos.x, 100, 300);
                     gridSizeHandle.setPosition(x - 10, gridSizeSlider.getPosition().y - 5);
-                    gridSize = 4 + ((x - 100) * 28) / 200; // Map to 4-32
+                    gridSize = 4 + ((x - 100) * 28) / 200; // Intervalle entre 4-32
                 } else if (draggingCellSize) {
                     int x = std::clamp(mousePos.x, 100, 300);
                     cellSizeHandle.setPosition(x - 10, cellSizeSlider.getPosition().y - 5);
-                    cellSize = 10 + ((x - 100) * 40) / 200; // Map to 10-50
+                    cellSize = 10 + ((x - 100) * 40) / 200; // Intervalle entre 10-50
                 }
             }
         }
 
-        // Update handle positions
+        // Mise à jour de la taille de/des grille/cellules
         gridSizeHandle.setPosition(100 + (gridSize - 4) * 200 / 28 - 10, gridSizeSlider.getPosition().y - 5);
         cellSizeHandle.setPosition(100 + (cellSize - 10) * 200 / 40 - 10, cellSizeSlider.getPosition().y - 5);
 
-        // Draw everything
+        // Affiche le tout sur la fenêtre
         configWindow.clear(sf::Color::Black);
         sf::Text gridSizeText, cellSizeText, confirmText;
         drawSlider(configWindow, gridSizeSlider, gridSizeHandle, gridSizeText, gridSize, 4, 32, font, {100, 20});
         drawSlider(configWindow, cellSizeSlider, cellSizeHandle, cellSizeText, cellSize, 10, 50, font, {100, 70});
 
         confirmText.setFont(font);
-        confirmText.setString("Press Enter to Confirm");
+        confirmText.setString("Appuyer 'Entrée' pour continuer ...");
         confirmText.setCharacterSize(20);
         confirmText.setPosition(80, 150);
         configWindow.draw(confirmText);
@@ -119,7 +119,7 @@ void ConfigView::drawView() {
                         }
                     }
 
-                    // Handle grid patterns
+                    // Gestion des divers patern de base
                     if (event.key.code == sf::Keyboard::G) { // Glider
                     std::vector<std::vector<int>> glider = {
                         {1, 1, 1},
@@ -202,7 +202,7 @@ void ConfigView::drawView() {
             }
         }
 
-        // Draw grid
+        // Afficher la grille
         window.clear(sf::Color::Black);
         for (int y = 0; y < gridSize; ++y) {
             for (int x = 0; x < gridSize; ++x) {
