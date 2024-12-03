@@ -3,7 +3,7 @@
 void ConfigView::configView() {
     sf::RenderWindow configWindow(sf::VideoMode(configWindowWidth, configWindowHeight), "Configuration de la grille");
 
-    // Création des "sliders" qui permettront la sélection de la taille de la grille et des cellules
+    // Création des "sliders" pour la taille de la grille et des cellules
     sf::RectangleShape gridSizeSlider(sf::Vector2f(200, 10));
     gridSizeSlider.setPosition(100, 50);
     gridSizeSlider.setFillColor(sf::Color::White);
@@ -25,6 +25,18 @@ void ConfigView::configView() {
         return;
     }
 
+    // Création du bouton "Construire"
+    sf::RectangleShape buildButton(sf::Vector2f(120, 40));
+    buildButton.setPosition(140, 150);
+    buildButton.setFillColor(sf::Color::Red);
+
+    sf::Text buildText;
+    buildText.setFont(font);
+    buildText.setString("Construire");
+    buildText.setCharacterSize(20);
+    buildText.setFillColor(sf::Color::Black);
+    buildText.setPosition(155, 155);
+
     bool draggingGridSize = false;
     bool draggingCellSize = false;
 
@@ -35,7 +47,7 @@ void ConfigView::configView() {
                 configWindow.close();
             }
 
-            // Gère les intéraction de l'utilisateur avec les sliders
+            // Gère les interactions de l'utilisateur avec les sliders
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(configWindow);
                 if (event.mouseButton.button == sf::Mouse::Left) {
@@ -43,6 +55,10 @@ void ConfigView::configView() {
                         draggingGridSize = true;
                     } else if (cellSizeHandle.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                         draggingCellSize = true;
+                    } else if (buildButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                        // Si le bouton "Construire" est cliqué
+                        configWindow.close();
+                        drawView();
                     }
                 }
             }
@@ -72,24 +88,17 @@ void ConfigView::configView() {
 
         // Affiche le tout sur la fenêtre
         configWindow.clear(sf::Color::Black);
-        sf::Text gridSizeText, cellSizeText, confirmText;
+        sf::Text gridSizeText, cellSizeText;
         drawSlider(configWindow, gridSizeSlider, gridSizeHandle, gridSizeText, gridSize, 4, 32, font, {100, 20});
         drawSlider(configWindow, cellSizeSlider, cellSizeHandle, cellSizeText, cellSize, 10, 50, font, {100, 70});
 
-        confirmText.setFont(font);
-        confirmText.setString("Appuyer 'Entrée' pour continuer ...");
-        confirmText.setCharacterSize(20);
-        confirmText.setPosition(80, 150);
-        configWindow.draw(confirmText);
+        configWindow.draw(buildButton);
+        configWindow.draw(buildText);
 
         configWindow.display();
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-            configWindow.close();
-            drawView();
-        }
     }
 }
+
 
 void ConfigView::drawView() {
     int windowSize = cellSize * gridSize;
@@ -119,7 +128,7 @@ void ConfigView::drawView() {
                         }
                     }
 
-                    if (event.key.code == sf::Keyboard::Enter) {
+                    if (event.key.code == sf::Keyboard::Insert) {
                     // Sauvegarde la grille
                     std::ofstream outFile(this->path);
                         if (outFile.is_open()) {
