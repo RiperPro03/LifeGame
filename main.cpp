@@ -10,14 +10,14 @@ using namespace std;
 
 int main() {
 
-    const int cellSize = 10;
+    
     string chemin;
     Grid grille;
 
     ConfigView configView;
 
     configView.configView();
-
+    const int cellSize = configView.getCellSize();
 
 
     // Demander à l'utilisateur de saisir le chemin du fichier de grille

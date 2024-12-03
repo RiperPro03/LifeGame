@@ -25,6 +25,8 @@ public:
     ConfigView() = default;
     void configView();
     void drawView();
+    int getCellSize();
+    int getGridSize();
 };
 
 #endif // CONFIGVIEW_H

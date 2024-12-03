@@ -260,3 +260,11 @@ void ConfigView::drawSlider(sf::RenderWindow& window, sf::RectangleShape& slider
     window.draw(handle);
     window.draw(label);
 }
+
+int ConfigView::getCellSize(){
+    return cellSize;
+}
+
+int ConfigView::getGridSize(){
+    return gridSize;
+}
