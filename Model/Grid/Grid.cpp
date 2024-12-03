@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 //Public -----------------------------------------
 
@@ -73,42 +74,63 @@ bool Grid::loadFromFile(const string& chemin) {
         return false;
     }
 
-    vector<vector<Cell>> cellulesTmp;
     string ligne;
     int hauteurTmp = 0;
+    int largeurTmp = 0;
 
+    if (getline(fichier, ligne)) {
+        stringstream ss(ligne);
+        int firstValue, secondValue;
+        ss >> firstValue >> secondValue;
+
+        if (!ss.fail() && ss.eof()) {
+            hauteurTmp = firstValue;
+            largeurTmp = secondValue;
+        } else {
+            largeurTmp = static_cast<int>(ligne.size());
+            fichier.seekg(0);
+        }
+    } else {
+        cout << "Erreur : fichier vide ou format incorrect." << endl;
+        return false;
+    }
+
+    vector<vector<Cell>> cellulesTmp;
+
+    int currentRow = 0;
     while (getline(fichier, ligne)) {
-        // Valider toute la ligne avant traitement
-        if (!ranges::all_of(ligne, [](char c) { return c == '1' || c == '0'; })) {
-            cout << "Erreur : caractere non valide dans le fichier." << endl;
+        // Remove spaces from the line if dimensions were specified
+        if (hauteurTmp > 0) {
+            erase_if(ligne, ::isspace);
+        }
+
+        if (ligne.size() != largeurTmp) {
+            cout << "Erreur : lignes de longueurs inegales dans le fichier." << endl;
             return false;
         }
 
         vector<Cell> rangee;
-        rangee.reserve(ligne.size());  // Réserver l'espace nécessaire
-
-        for (int col = 0; col < static_cast<int>(ligne.size()); ++col) {
+        for (int col = 0; col < largeurTmp; ++col) {
             char valeur = ligne[col];
-            rangee.emplace_back(hauteurTmp, col, valeur == '1');
-        }
-
-        if (hauteurTmp == 0) {
-            this->lentgh = rangee.size();  // Définit la largeur au nombre de cellules dans la première ligne
+            if (valeur != '1' && valeur != '0') {
+                cout << "Erreur : caractere non valide dans le fichier." << endl;
+                return false;
+            }
+            rangee.emplace_back(currentRow, col, valeur == '1');
         }
 
         cellulesTmp.push_back(move(rangee));
-        hauteurTmp++;
+        currentRow++;
     }
 
-    // Vérifier que toutes les lignes ont la même taille
-    if (!ranges::all_of(cellulesTmp,
-                        [this](const vector<Cell>& row) { return row.size() == this->getLength(); })) {
-        cout << "Erreur : lignes de longueurs inégales dans le fichier." << endl;
+    if (hauteurTmp > 0 && currentRow != hauteurTmp) {
+        cout << "Erreur : nombre de lignes incorrect dans le fichier." << endl;
         return false;
-                     }
+    }
 
-    this->width = hauteurTmp;
-    this->cells = move(cellulesTmp);  // Transférer les données finales
+    this->width = currentRow;
+    this->lentgh = largeurTmp;
+    this->cells = move(cellulesTmp);
 
     fichier.close();
     return true;
