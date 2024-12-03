@@ -121,7 +121,7 @@ void ConfigView::drawView() {
 
                     if (event.key.code == sf::Keyboard::Enter) {
                     // Sauvegarde la grille
-                    std::ofstream outFile("grille_test.txt");
+                    std::ofstream outFile(this->path);
                         if (outFile.is_open()) {
                             for (const auto& row : grid) {
                                 for (int cell : row) {
@@ -129,7 +129,7 @@ void ConfigView::drawView() {
                                 }
                                 outFile << "\n";
                             }
-                            std::cout << "Grille sauvegardée dans grille_test.txt" << std::endl;
+                            std::cout << "Grille sauvegardée dans " << this->path << std::endl;
                         }
                     }
                     // Gestion des divers patern de base
