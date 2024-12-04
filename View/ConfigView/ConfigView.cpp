@@ -3,13 +3,14 @@
 void ConfigView::configView() {
     sf::RenderWindow configWindow(sf::VideoMode(configWindowWidth, configWindowHeight), "Configuration de la grille");
 
-    // Création des "sliders" pour la taille de la grille et des cellules
+    // Création des sliders
     sf::RectangleShape gridSizeSlider(sf::Vector2f(200, 10));
     gridSizeSlider.setPosition(100, 50);
     gridSizeSlider.setFillColor(sf::Color::White);
 
     sf::CircleShape gridSizeHandle(10);
     gridSizeHandle.setFillColor(sf::Color::Red);
+    gridSizeHandle.setPosition(gridSizeSlider.getPosition().x + (gridSize - 4) * 200 / 28 - 10, gridSizeSlider.getPosition().y - 5);
 
     sf::RectangleShape cellSizeSlider(sf::Vector2f(200, 10));
     cellSizeSlider.setPosition(100, 100);
@@ -17,15 +18,27 @@ void ConfigView::configView() {
 
     sf::CircleShape cellSizeHandle(10);
     cellSizeHandle.setFillColor(sf::Color::Red);
+    cellSizeHandle.setPosition(cellSizeSlider.getPosition().x + (cellSize - 10) * 200 / 40 - 10, cellSizeSlider.getPosition().y - 5);
 
-    // Chargement de la police
+    // Création de la police et des zones de texte
     sf::Font font;
     if (!font.loadFromFile("arial.ttf")) {
         std::cout << "Erreur: Police 'arial.ttf' non trouvée !" << std::endl;
         return;
     }
 
-    // Création du bouton "Construire"
+    sf::Text gridSizeInput, cellSizeInput;
+    gridSizeInput.setFont(font);
+    gridSizeInput.setCharacterSize(20);
+    gridSizeInput.setFillColor(sf::Color::White);
+    gridSizeInput.setPosition(320, 40);
+
+    cellSizeInput.setFont(font);
+    cellSizeInput.setCharacterSize(20);
+    cellSizeInput.setFillColor(sf::Color::White);
+    cellSizeInput.setPosition(320, 90);
+
+    // Création du boutton 'Construire'
     sf::RectangleShape buildButton(sf::Vector2f(120, 40));
     buildButton.setPosition(140, 150);
     buildButton.setFillColor(sf::Color::Red);
@@ -37,8 +50,12 @@ void ConfigView::configView() {
     buildText.setFillColor(sf::Color::Black);
     buildText.setPosition(155, 155);
 
-    bool draggingGridSize = false;
-    bool draggingCellSize = false;
+    // Variable pour les intéraction
+    bool draggingGridSize = false, draggingCellSize = false;
+    bool editingGridSize = false, editingCellSize = false;
+
+    std::string gridSizeBuffer = std::to_string(gridSize);
+    std::string cellSizeBuffer = std::to_string(cellSize);
 
     while (configWindow.isOpen()) {
         sf::Event event;
@@ -47,50 +64,91 @@ void ConfigView::configView() {
                 configWindow.close();
             }
 
-            // Gère les interactions de l'utilisateur avec les sliders
-            if (event.type == sf::Event::MouseButtonPressed) {
-                sf::Vector2i mousePos = sf::Mouse::getPosition(configWindow);
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    if (gridSizeHandle.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                        draggingGridSize = true;
-                    } else if (cellSizeHandle.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                        draggingCellSize = true;
-                    } else if (buildButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                        // Si le bouton "Construire" est cliqué
-                        configWindow.close();
-                        drawView();
-                    }
+            sf::Vector2i mousePos = sf::Mouse::getPosition(configWindow);
+
+            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+                if (gridSizeHandle.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    draggingGridSize = true;
+                } else if (cellSizeHandle.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    draggingCellSize = true;
+                } else if (gridSizeInput.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    editingGridSize = true;
+                    editingCellSize = false;
+                } else if (cellSizeInput.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    editingCellSize = true;
+                    editingGridSize = false;
+                } else if (buildButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    // Gestion de l'appui du boutton
+                    configWindow.close();
+                    drawView();
                 }
             }
-            if (event.type == sf::Event::MouseButtonReleased) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    draggingGridSize = false;
-                    draggingCellSize = false;
-                }
+
+            if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+                draggingGridSize = false;
+                draggingCellSize = false;
             }
+
             if (event.type == sf::Event::MouseMoved) {
-                sf::Vector2i mousePos = sf::Mouse::getPosition(configWindow);
                 if (draggingGridSize) {
                     int x = std::clamp(mousePos.x, 100, 300);
                     gridSizeHandle.setPosition(x - 10, gridSizeSlider.getPosition().y - 5);
-                    gridSize = 4 + ((x - 100) * 28) / 200; // Intervalle entre 4-32
+                    gridSize = 4 + ((x - 100) * 28) / 200;
+                    gridSizeBuffer = std::to_string(gridSize);
                 } else if (draggingCellSize) {
                     int x = std::clamp(mousePos.x, 100, 300);
                     cellSizeHandle.setPosition(x - 10, cellSizeSlider.getPosition().y - 5);
-                    cellSize = 10 + ((x - 100) * 40) / 200; // Intervalle entre 10-50
+                    cellSize = 10 + ((x - 100) * 40) / 200;
+                    cellSizeBuffer = std::to_string(cellSize);
+                }
+            }
+
+            if (event.type == sf::Event::TextEntered) {
+                if (editingGridSize || editingCellSize) {
+                    if (event.text.unicode >= '0' && event.text.unicode <= '9') {
+                        if (editingGridSize && gridSizeBuffer.size() < 3)
+                            gridSizeBuffer += static_cast<char>(event.text.unicode);
+                        else if (editingCellSize && cellSizeBuffer.size() < 3)
+                            cellSizeBuffer += static_cast<char>(event.text.unicode);
+                    } else if (event.text.unicode == '\b') {
+                        if (editingGridSize && !gridSizeBuffer.empty())
+                            gridSizeBuffer.pop_back();
+                        else if (editingCellSize && !cellSizeBuffer.empty())
+                            cellSizeBuffer.pop_back();
+                    }
+                }
+            }
+
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+                if (editingGridSize) {
+                    int newGridSize = std::stoi(gridSizeBuffer);
+                    gridSize = std::clamp(newGridSize, 4, 32);
+                    gridSizeBuffer = std::to_string(gridSize);
+                    editingGridSize = false;
+                    gridSizeHandle.setPosition(100 + (gridSize - 4) * 200 / 28 - 10, gridSizeSlider.getPosition().y - 5);
+                } else if (editingCellSize) {
+                    int newCellSize = std::stoi(cellSizeBuffer);
+                    cellSize = std::clamp(newCellSize, 10, 50);
+                    cellSizeBuffer = std::to_string(cellSize);
+                    editingCellSize = false;
+                    cellSizeHandle.setPosition(100 + (cellSize - 10) * 200 / 40 - 10, cellSizeSlider.getPosition().y - 5);
                 }
             }
         }
 
-        // Mise à jour de la taille de/des grille/cellules
-        gridSizeHandle.setPosition(100 + (gridSize - 4) * 200 / 28 - 10, gridSizeSlider.getPosition().y - 5);
-        cellSizeHandle.setPosition(100 + (cellSize - 10) * 200 / 40 - 10, cellSizeSlider.getPosition().y - 5);
-
-        // Affiche le tout sur la fenêtre
+        // Mise à jour de l'affichage
         configWindow.clear(sf::Color::Black);
-        sf::Text gridSizeText, cellSizeText;
-        drawSlider(configWindow, gridSizeSlider, gridSizeHandle, gridSizeText, gridSize, 4, 32, font, {100, 20});
-        drawSlider(configWindow, cellSizeSlider, cellSizeHandle, cellSizeText, cellSize, 10, 50, font, {100, 70});
+
+        configWindow.draw(gridSizeSlider);
+        configWindow.draw(gridSizeHandle);
+        configWindow.draw(cellSizeSlider);
+        configWindow.draw(cellSizeHandle);
+
+        gridSizeInput.setString(editingGridSize ? gridSizeBuffer + "|" : std::to_string(gridSize));
+        cellSizeInput.setString(editingCellSize ? cellSizeBuffer + "|" : std::to_string(cellSize));
+
+        configWindow.draw(gridSizeInput);
+        configWindow.draw(cellSizeInput);
 
         configWindow.draw(buildButton);
         configWindow.draw(buildText);

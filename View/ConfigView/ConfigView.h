@@ -11,14 +11,14 @@ using namespace std;
 
 class ConfigView {
 private:
-    int gridSize = 16;   // Default grid size
-    int cellSize = 30;   // Default cell size
+    int gridSize = 16;   // Taille de la grille par défaut
+    int cellSize = 30;   // Taille de la grille par défaut
     const int configWindowWidth = 400;
     const int configWindowHeight = 200;
 
-    string path = "grille.txt"; // Path to the file containing the grid
+    string path = "grille.txt"; // Chemin du fichier créé
 
-    // Helper function for drawing sliders and text
+    // Fonction permettant la création des sliders
     void drawSlider(sf::RenderWindow& window, sf::RectangleShape& slider, sf::CircleShape& handle, sf::Text& label, int value, int min, int max, sf::Font& font, const sf::Vector2f& position);
 
 public:
@@ -29,4 +29,4 @@ public:
     int getGridSize();
 };
 
-#endif // CONFIGVIEW_H
+#endif
