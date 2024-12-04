@@ -4,7 +4,7 @@ ConsoleView::ConsoleView(Game& jeu) : jeu(jeu) {}
 
 void ConsoleView::afficher() const {
     cout << "Generation " << this->jeu.getCurrentGen() << " : " << endl;
-    auto& grid = this->jeu.getGrid();
+    const auto& grid = this->jeu.getGrid();
 
     for (int row = 0; row < grid.getWidth(); ++row) {
         for (int col = 0; col < grid.getLength(); ++col) {

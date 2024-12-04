@@ -47,8 +47,15 @@ public:
      */
     virtual void setState(bool state);
 
+    /**
+     * Vérifie si la cellule est un obstacle
+     * @return true si la cellule est un obstacle, false sinon
+     */
     virtual bool isObstacle() const;
 
+    /**
+     * Destructeur virtuel de la classe Cell
+     */
     virtual ~Cell() = default;
 
 };

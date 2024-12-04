@@ -2,7 +2,7 @@
 
 GraphicView::GraphicView(Game& jeu, int cellSize) : jeu(jeu), cellSize(cellSize) {}
 
-void GraphicView::display(sf::RenderWindow &window) {
+void GraphicView::display(sf::RenderWindow &window) const {
     // Récupérer la grille depuis l'objet Game
     auto& grid = this->jeu.getGrid();
 

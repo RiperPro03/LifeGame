@@ -21,6 +21,7 @@ void Cell::setState(bool newState) {
     this->state = newState;
 }
 
+// Méthode pour vérifier si la cellule est un obstacle
 bool Cell::isObstacle() const {
     return false;
 }

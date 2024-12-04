@@ -3,6 +3,13 @@
 #include "../Cell/Cell.h"
 
 
+/**
+ * @class ObstacleCell
+ * @brief Classe représentant une cellule de type obstacle
+ *
+ * La classe ObstacleCell hérite de la classe Cell et représente une cellule de type obstacle
+ * qui ne peut pas changer d'état.
+ */
 class ObstacleCell : public Cell {
 public:
     /**
