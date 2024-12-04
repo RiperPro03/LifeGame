@@ -10,6 +10,8 @@ add_executable(UnitTests
         ../Model/Grid/Grid.cpp
         ../Model/Game/Game.h
         ../Model/Game/Game.cpp
+        ../Model/ObstacleCell/ObstacleCell.h
+        ../Model/ObstacleCell/ObstacleCell.cpp
         UnitTest.h
         UnitTest.cpp
 )

@@ -45,7 +45,11 @@ public:
      * Modifie l'état de la cellule
      * @param state : le nouvel état de la cellule (bool)
      */
-    void setState(bool state);
+    virtual void setState(bool state);
+
+    virtual bool isObstacle() const;
+
+    virtual ~Cell() = default;
 
 };
 

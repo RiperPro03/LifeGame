@@ -24,8 +24,8 @@ Grid::Grid(const string& chemin) {
     this->stateGrid = loadFromFile(chemin);
 }
 
-Cell& Grid::getCell(const int x, const int y) {
-    return cells[x][y];
+Cell& Grid::getCell(const int x, const int y) const {
+    return *(cells[x][y]);
 }
 
 bool Grid::isLoaded() const {
@@ -66,7 +66,7 @@ int Grid::getWidth() const {
 // }
 
 // Grille torique
-int Grid::nbNeighbourCellAlive(const int row, const int col) {
+int Grid::nbNeighbourCellAlive(const int row, const int col) const {
     int count = 0;
 
     // Déplacements relatifs pour accéder aux voisins
@@ -118,7 +118,7 @@ bool Grid::loadFromFile(const string& chemin) {
         return false;
     }
 
-    vector<vector<Cell>> cellulesTmp;
+    vector<vector<unique_ptr<Cell>>> cellulesTmp;
 
     int currentRow = 0;
     while (getline(fichier, ligne)) {
@@ -132,14 +132,25 @@ bool Grid::loadFromFile(const string& chemin) {
             return false;
         }
 
-        vector<Cell> rangee;
+        vector<unique_ptr<Cell>> rangee;
         for (int col = 0; col < largeurTmp; ++col) {
-            char valeur = ligne[col];
-            if (valeur != '1' && valeur != '0') {
-                cout << "Erreur : caractere non valide dans le fichier." << endl;
-                return false;
+            switch (ligne[col]) {
+                case '0':
+                    rangee.push_back(make_unique<Cell>(currentRow, col, false));
+                    break;
+                case '1':
+                    rangee.push_back(make_unique<Cell>(currentRow, col, true));
+                    break;
+                case '2':
+                    rangee.push_back(make_unique<ObstacleCell>(currentRow, col, false)); // Obstacle mort
+                    break;
+                case '3':
+                    rangee.push_back(make_unique<ObstacleCell>(currentRow, col, true));  // Obstacle vivant
+                    break;
+                default:
+                    cout << "Erreur : caractere non valide dans le fichier." << endl;
+                    return false;
             }
-            rangee.emplace_back(currentRow, col, valeur == '1');
         }
 
         cellulesTmp.push_back(move(rangee));
