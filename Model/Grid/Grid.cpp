@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 //Public -----------------------------------------
 
@@ -38,7 +39,33 @@ int Grid::getLength() const {
 int Grid::getWidth() const {
     return this->width;
 }
+// Grille standard
+// int Grid::nbNeighbourCellAlive(const int row, const int col) {
+//     int count = 0;
+//
+//     // Déplacements relatifs pour accéder aux voisins
+//     const int offsets[8][2] = {
+//         {-1, -1}, {-1, 0}, {-1, 1}, // Voisin du haut
+//         { 0, -1},             { 0, 1}, // Voisin de gauche et de droite
+//         { 1, -1}, { 1, 0}, { 1, 1} // Voisin du bas
+//     };
+//
+//     // Parcourir tous les déplacements relatifs
+//     for (const auto& offset : offsets) {
+//         int neighborRow = row + offset[0];
+//         int neighborCol = col + offset[1];
+//
+//         // Vérifier que le voisin est dans les limites de la grille
+//         if (neighborRow >= 0 && neighborRow < this->getWidth() &&
+//             neighborCol >= 0 && neighborCol < this->getLength()) {
+//             count += this->getCell(neighborRow, neighborCol).getState();
+//             }
+//     }
+//
+//     return count;
+// }
 
+// Grille torique
 int Grid::nbNeighbourCellAlive(const int row, const int col) {
     int count = 0;
 
@@ -49,16 +76,13 @@ int Grid::nbNeighbourCellAlive(const int row, const int col) {
         { 1, -1}, { 1, 0}, { 1, 1} // Voisin du bas
     };
 
-    // Parcourir tous les déplacements relatifs
     for (const auto& offset : offsets) {
-        int neighborRow = row + offset[0];
-        int neighborCol = col + offset[1];
+        // Calculer la position du voisin avec la logique torique
+        int neighborRow = (row + offset[0] + this->width) % this->width;
+        int neighborCol = (col + offset[1] + this->lentgh) % this->lentgh;
 
-        // Vérifier que le voisin est dans les limites de la grille
-        if (neighborRow >= 0 && neighborRow < this->getWidth() &&
-            neighborCol >= 0 && neighborCol < this->getLength()) {
-            count += this->getCell(neighborRow, neighborCol).getState();
-            }
+        // Compter l'état vivant du voisin
+        count += this->getCell(neighborRow, neighborCol).getState();
     }
 
     return count;
@@ -73,42 +97,63 @@ bool Grid::loadFromFile(const string& chemin) {
         return false;
     }
 
-    vector<vector<Cell>> cellulesTmp;
     string ligne;
     int hauteurTmp = 0;
+    int largeurTmp = 0;
 
+    if (getline(fichier, ligne)) {
+        stringstream ss(ligne);
+        int firstValue, secondValue;
+        ss >> firstValue >> secondValue;
+
+        if (!ss.fail() && ss.eof()) {
+            hauteurTmp = firstValue;
+            largeurTmp = secondValue;
+        } else {
+            largeurTmp = static_cast<int>(ligne.size());
+            fichier.seekg(0);
+        }
+    } else {
+        cout << "Erreur : fichier vide ou format incorrect." << endl;
+        return false;
+    }
+
+    vector<vector<Cell>> cellulesTmp;
+
+    int currentRow = 0;
     while (getline(fichier, ligne)) {
-        // Valider toute la ligne avant traitement
-        if (!ranges::all_of(ligne, [](char c) { return c == '1' || c == '0'; })) {
-            cout << "Erreur : caractere non valide dans le fichier." << endl;
+        // Remove spaces from the line if dimensions were specified
+        if (hauteurTmp > 0) {
+            erase_if(ligne, ::isspace);
+        }
+
+        if (ligne.size() != largeurTmp) {
+            cout << "Erreur : lignes de longueurs inegales dans le fichier." << endl;
             return false;
         }
 
         vector<Cell> rangee;
-        rangee.reserve(ligne.size());  // Réserver l'espace nécessaire
-
-        for (int col = 0; col < static_cast<int>(ligne.size()); ++col) {
+        for (int col = 0; col < largeurTmp; ++col) {
             char valeur = ligne[col];
-            rangee.emplace_back(hauteurTmp, col, valeur == '1');
-        }
-
-        if (hauteurTmp == 0) {
-            this->lentgh = rangee.size();  // Définit la largeur au nombre de cellules dans la première ligne
+            if (valeur != '1' && valeur != '0') {
+                cout << "Erreur : caractere non valide dans le fichier." << endl;
+                return false;
+            }
+            rangee.emplace_back(currentRow, col, valeur == '1');
         }
 
         cellulesTmp.push_back(move(rangee));
-        hauteurTmp++;
+        currentRow++;
     }
 
-    // Vérifier que toutes les lignes ont la même taille
-    if (!ranges::all_of(cellulesTmp,
-                        [this](const vector<Cell>& row) { return row.size() == this->getLength(); })) {
-        cout << "Erreur : lignes de longueurs inégales dans le fichier." << endl;
+    if (hauteurTmp > 0 && currentRow != hauteurTmp) {
+        cout << "Erreur : nombre de lignes incorrect dans le fichier." << endl;
         return false;
-                     }
+    }
 
-    this->width = hauteurTmp;
-    this->cells = move(cellulesTmp);  // Transférer les données finales
+    this->width = currentRow;
+    this->lentgh = largeurTmp;
+    this->cells = move(cellulesTmp);
 
     fichier.close();
     return true;

@@ -61,7 +61,7 @@ int main() {
 
             case 2:
                 cout << "Mode graphique" << endl;
-                controller.playGraphicMode(250);
+                controller.playGraphicMode(delayGen);
                 return 0;
 
             default:
