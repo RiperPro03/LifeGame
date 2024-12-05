@@ -18,6 +18,7 @@ int main() {
 
     configView.configView();
     const int cellSize = configView.getCellSize();
+    const int delayGen = configView.getDelayGen();
 
 
     // Demander à l'utilisateur de saisir le chemin du fichier de grille
