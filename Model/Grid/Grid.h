@@ -5,6 +5,9 @@
 #include <vector>
 #include <string>
 #include "../Cell/Cell.h"
+#include "memory"
+#include "../ObstacleCell/ObstacleCell.h"
+
 using namespace std;
 
 
@@ -19,7 +22,7 @@ class Grid {
 private:
     int lentgh = 0; // longueur de la grille
     int width = 0; // largeur de la grille
-    vector <vector <Cell>> cells; // grille de cellules
+    vector<vector<unique_ptr<Cell>>> cells; // grille de cellules utilisant unique_ptr
     bool stateGrid; // Vrai si la grille est à été créée avec succès
 
     /**
@@ -60,7 +63,7 @@ public:
      * @param y La colonne de la cellule souhaitée (int).
      * @return Une référence à l'objet Cell correspondant.
      */
-    Cell& getCell(int x, int y);
+    Cell& getCell(int x, int y) const;
 
 
     /**
@@ -97,7 +100,7 @@ public:
      * @param col la colonne de la cellule
      * @return int le nombre de cellules voisines vivantes.
      */
-    int nbNeighbourCellAlive(int row, int col);
+    int nbNeighbourCellAlive(int row, int col) const;
 };
 
 

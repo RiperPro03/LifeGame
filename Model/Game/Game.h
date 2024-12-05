@@ -4,13 +4,16 @@
 
 #include "../Grid/Grid.h"
 #include <vector>
-#include <iostream>
-#include <fstream>
-#include <filesystem>
-#include <thread>
 
 using namespace std;
 
+/**
+ * @class Game
+ * @brief Classe représentant le jeu de la vie
+ *
+ * La classe Game permet de gérer le jeu de la vie, en calculant les générations successives
+ * et en sauvegardant les générations dans des fichiers texte.
+ */
 class Game {
 private:
     Grid& grid;

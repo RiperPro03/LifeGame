@@ -2,7 +2,7 @@
 
 GraphicView::GraphicView(Game& jeu, int cellSize) : jeu(jeu), cellSize(cellSize) {}
 
-void GraphicView::display(sf::RenderWindow &window) {
+void GraphicView::display(sf::RenderWindow &window) const {
     // Récupérer la grille depuis l'objet Game
     auto& grid = this->jeu.getGrid();
 
@@ -15,13 +15,21 @@ void GraphicView::display(sf::RenderWindow &window) {
     // Parcourir chaque cellule de la grille
     for (int row = 0; row < grid.getWidth(); ++row) {
         for (int col = 0; col < grid.getLength(); ++col) {
-            // Vérifier si la cellule est vivante
-            if (grid.getCell(row, col).getState()) {
-                // Positionner le rectangle à l'emplacement de la cellule dans la fenêtre
-                cell.setPosition(static_cast<float>(col) * static_cast<float>(this->cellSize), static_cast<float>(row) * static_cast<float>(this->cellSize));
-                // Dessiner la cellule sur la fenêtre
-                window.draw(cell);
+
+            Cell& currentCell = grid.getCell(row, col);
+
+            // Positionner le rectangle à l'emplacement de la cellule dans la fenêtre
+            cell.setPosition(static_cast<float>(col) * static_cast<float>(this->cellSize), static_cast<float>(row) * static_cast<float>(this->cellSize));
+
+            // Vérifier si la cellule est un obstacle et ajuster la couleur en conséquence
+            if (currentCell.isObstacle()) {
+                cell.setFillColor(currentCell.getState() ? sf::Color::Green : sf::Color::Red);
+            } else {
+                cell.setFillColor(currentCell.getState() ? sf::Color::White : sf::Color::Black);
             }
+
+            // Dessiner la cellule sur la fenêtre
+            window.draw(cell);
         }
     }
 

@@ -1,7 +1,7 @@
 #include "Cell.h"
 
 // Constructeur
-Cell::Cell(int row, int col, bool state) : row(row), col(col), state(state) {}
+Cell::Cell(const int row, const int col, const bool state) : row(row), col(col), state(state) {}
 
 // Getters
 int Cell::getRow() const {
@@ -19,4 +19,9 @@ bool Cell::getState() const {
 // Setter pour l'état
 void Cell::setState(bool newState) {
     this->state = newState;
+}
+
+// Méthode pour vérifier si la cellule est un obstacle
+bool Cell::isObstacle() const {
+    return false;
 }

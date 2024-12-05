@@ -10,7 +10,6 @@ using namespace std;
 
 int main() {
 
-    
     string chemin;
     Grid grille;
 
@@ -27,14 +26,14 @@ int main() {
         getline(cin, chemin);
 
         if (chemin == "exit") {
-            cout << "Programme termine" << endl;
+            cout << "Programme termine !" << endl;
             return 0; // Quitter le programme
         }
 
         grille = Grid(chemin);
 
         if (grille.isLoaded()) {
-            cout << "Grille chargee avec succes :\n";
+            cout << "Grille chargee avec succes !\n";
             break;
         }
     }
@@ -52,7 +51,7 @@ int main() {
 
         switch (choix) {
             case 0:
-                cout << "Programme termine" << endl;
+                cout << "Programme termine !" << endl;
                 return 0; // Quitter le programme
 
             case 1:
