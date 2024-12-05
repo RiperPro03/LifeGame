@@ -10,15 +10,14 @@ using namespace std;
 
 int main() {
 
-    const int cellSize = 10;
-    const int delayGen = 100;
     string chemin;
     Grid grille;
 
     ConfigView configView;
 
     configView.configView();
-
+    const int cellSize = configView.getCellSize();
+    const int delayGen = configView.getDelayGen();
 
 
     // Demander à l'utilisateur de saisir le chemin du fichier de grille

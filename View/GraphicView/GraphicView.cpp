@@ -7,14 +7,15 @@ void GraphicView::display(sf::RenderWindow &window) const {
     auto& grid = this->jeu.getGrid();
 
     // Effacer la fenêtre avant de dessiner
-    window.clear();
+    window.clear(sf::Color::Black);
 
     // Créer une cellule graphique (rectangle) avec une taille ajustée
     sf::RectangleShape cell(sf::Vector2f(static_cast<float>(this->cellSize) - 1.0f, static_cast<float>(this->cellSize) - 1.0f));
-
+    
     // Parcourir chaque cellule de la grille
     for (int row = 0; row < grid.getWidth(); ++row) {
         for (int col = 0; col < grid.getLength(); ++col) {
+
             Cell& currentCell = grid.getCell(row, col);
 
             // Positionner le rectangle à l'emplacement de la cellule dans la fenêtre

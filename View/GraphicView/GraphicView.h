@@ -28,7 +28,6 @@ public:
      * @return la taille des cellules
      */
     int getCellSize() const;  // Obtenir la taille des cellules
-
 };
 
 
