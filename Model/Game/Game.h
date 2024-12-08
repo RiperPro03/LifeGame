@@ -32,9 +32,8 @@ public:
      * @brief Constructeur de la classe Game
      *
      * @param grid la grille du jeu
-     * @param isTorique choix de la grille torique ou non (par défaut True)
      */
-    Game(Grid& grid, bool isTorique = true);
+    Game(Grid& grid);
 
     /**
      * @brief Permet de passer à la génération suivante
@@ -73,6 +72,22 @@ public:
      * @param state le nouvel état du jeu
      */
     void setState(bool state);
+
+    /**
+     * @brief Permet de changer le mode torique
+     *
+     * Permet de changer le mode torique de la grille si isTorique est true
+     *
+     * @param torique true si le mode torique est activé, false sinon
+     */
+    void setTorique(bool torique);
+
+    /**
+     * @brief Permet de savoir si le mode torique est activé
+     *
+     * @return true si le mode torique est activé, false sinon
+     */
+    bool getTorique() const;
 };
 
 

@@ -6,8 +6,8 @@
 
 //Public -----------------------------------------
 
-Game::Game(Grid& grid, bool isTorique)
-    : grid(grid), isTorique(isTorique) {}
+Game::Game(Grid& grid)
+    : grid(grid) {}
 
 void Game::nextGen() {
     if (!this->state) {
@@ -100,6 +100,14 @@ Grid& Game::getGrid() const {
 
 void Game::setState(bool state) {
     this->state = state;
+}
+
+void Game::setTorique(bool isTorique) {
+    this->isTorique = isTorique;
+}
+
+bool Game::getTorique() const {
+    return this->isTorique;
 }
 
 //Private -----------------------------------------

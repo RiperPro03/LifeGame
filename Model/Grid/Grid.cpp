@@ -99,6 +99,11 @@ bool Grid::loadFromFile(const string& chemin) {
 }
 
 Cell& Grid::getCell(const int x, const int y) const {
+    // Vérifier que les coordonnées sont valides
+    if (x < 0 || x >= this->getWidth() || y < 0 || y >= this->getLength()) {
+        throw out_of_range("Coordonnees de cellule invalides.");
+    }
+
     return *(cells[x][y]);
 }
 

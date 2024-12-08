@@ -33,20 +33,6 @@ int main() {
         << ", delay generation = " << delayGen << " ms" << endl;
     }
 
-    char toriqueChoice;
-    bool isTorique;
-    cout << "Voulez-vous activer le mode grille torique ? (o/n) : ";
-    cin >> toriqueChoice;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
-
-    if (toriqueChoice == 'o' || toriqueChoice == 'O') {
-        isTorique = true;
-        cout << "Mode grille torique active !" << endl;
-    } else {
-        isTorique = false;
-        cout << "Mode grille classique active !" << endl;
-    }
-
     // Demander à l'utilisateur de saisir le chemin du fichier de grille
     while (true) {
         cout << "Entrez le chemin du fichier de la grille ('exit' pour quitter) : ";
@@ -63,10 +49,23 @@ int main() {
         }
     }
 
-    Game jeu(grille, isTorique);
+    Game jeu(grille);
     ConsoleView consoleView(jeu);
     GraphicView graphicView(jeu, cellSize);
     const Controller controller(jeu, consoleView, graphicView);
+
+    char toriqueChoice;
+    cout << "Voulez-vous activer le mode grille torique ? (o/n) : ";
+    cin >> toriqueChoice;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+
+    if (toriqueChoice == 'o' || toriqueChoice == 'O') {
+        jeu.setTorique(true);
+        cout << "Mode grille torique active !" << endl;
+    } else {
+        jeu.setTorique(false);
+        cout << "Mode grille classique active !" << endl;
+    }
 
     // Demander à l'utilisateur de choisir le mode d'affichage
     int choix;
