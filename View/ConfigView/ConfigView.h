@@ -22,7 +22,7 @@ private:
     int maxCellSize = 50; // Borne maximale de la taille des cellules
     int cellSize = (maxCellSize + minCellSize) / 2;   // Taille de la grille par défaut
 
-    int delayGen = 1000; 
+    int delayGen = 100;
     const int configWindowWidth = 400; // Largeur de la fenêtre de config par défaut
     const int configWindowHeight = 250; // Hauteur de la fenêtre de config par défaut
 

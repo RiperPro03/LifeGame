@@ -19,6 +19,7 @@ private:
     Grid& grid;
     bool state = true;
     int currentGen = 0;
+    bool isTorique = true;
 
     /**
      * @brief Sauvegarde la génération actuelle dans un fichier texte
@@ -30,9 +31,10 @@ public:
     /**
      * @brief Constructeur de la classe Game
      *
-     * @param grid
+     * @param grid la grille du jeu
+     * @param isTorique choix de la grille torique ou non (par défaut True)
      */
-    Game(Grid& grid);
+    Game(Grid& grid, bool isTorique = true);
 
     /**
      * @brief Permet de passer à la génération suivante

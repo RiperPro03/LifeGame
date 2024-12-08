@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "Model/Game/Game.h"
 #include "View/ConsoleView/ConsoleView.h"
 #include "View/GraphicView/GraphicView.h"
@@ -15,10 +16,36 @@ int main() {
 
     ConfigView configView;
 
-    configView.configView();
-    const int cellSize = configView.getCellSize();
-    const int delayGen = configView.getDelayGen();
+    char configChoice;
+    cout << "Voulez-vous configurer les parametres ? (o/n) : ";
+    cin >> configChoice;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
 
+    int cellSize = configView.getCellSize();
+    int delayGen = configView.getDelayGen();
+
+    if (configChoice == 'o' || configChoice == 'O') {
+        configView.configView();
+        cellSize = configView.getCellSize();
+        delayGen = configView.getDelayGen();
+    } else {
+        cout << "Parametres par defaut utilises : cell size = " << cellSize
+        << ", delay generation = " << delayGen << " ms" << endl;
+    }
+
+    char toriqueChoice;
+    bool isTorique;
+    cout << "Voulez-vous activer le mode grille torique ? (o/n) : ";
+    cin >> toriqueChoice;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+
+    if (toriqueChoice == 'o' || toriqueChoice == 'O') {
+        isTorique = true;
+        cout << "Mode grille torique active !" << endl;
+    } else {
+        isTorique = false;
+        cout << "Mode grille classique active !" << endl;
+    }
 
     // Demander à l'utilisateur de saisir le chemin du fichier de grille
     while (true) {
@@ -30,15 +57,13 @@ int main() {
             return 0; // Quitter le programme
         }
 
-        grille = Grid(chemin);
-
-        if (grille.isLoaded()) {
+        if (grille.loadFromFile(chemin)) {
             cout << "Grille chargee avec succes !\n";
             break;
         }
     }
 
-    Game jeu(grille);
+    Game jeu(grille, isTorique);
     ConsoleView consoleView(jeu);
     GraphicView graphicView(jeu, cellSize);
     const Controller controller(jeu, consoleView, graphicView);

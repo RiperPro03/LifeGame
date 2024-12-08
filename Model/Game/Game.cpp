@@ -6,8 +6,8 @@
 
 //Public -----------------------------------------
 
-Game::Game(Grid& grid)
-    : grid(grid) {}
+Game::Game(Grid& grid, bool isTorique)
+    : grid(grid), isTorique(isTorique) {}
 
 void Game::nextGen() {
     if (!this->state) {
@@ -26,7 +26,7 @@ void Game::nextGen() {
     auto processSegment = [&](int startRow, int endRow) {
         for (int row = startRow; row < endRow; ++row) {
             for (int col = 0; col < currentGrid.getLength(); ++col) {
-                const int aliveNeighbours = currentGrid.nbNeighbourCellAlive(row, col);
+                const int aliveNeighbours = currentGrid.nbNeighbourCellAlive(row, col, this->isTorique);
                 bool nextState = false;
 
                 // Si cellule vivante
@@ -105,8 +105,16 @@ void Game::setState(bool state) {
 //Private -----------------------------------------
 
 void Game::saveGen(vector<vector<bool>>& grid) const {
+    // Nom du fichier de sauvegarde
+    string inputFileName = this->grid.getName();
+
+    // Extraire le nom de base sans extension
+    size_t lastDot = inputFileName.find_last_of('.');
+    size_t lastSlash = inputFileName.find_last_of("/\\");
+    string baseName = inputFileName.substr(lastSlash + 1, lastDot - lastSlash - 1);
+
     // Nom du dossier où les fichiers seront sauvegardés
-    const string folder = "out";
+    const string folder = baseName + "_out";
 
     // Vérifier si le dossier existe, sinon le créer
     if (!filesystem::exists(folder)) {

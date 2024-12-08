@@ -14,11 +14,11 @@ TEST_CASE(TestGameConstructor) {
             << "00000\n"
             << "10000\n";
     outFile.close();
-    Grid grid(stableGridFile);
+    Grid grid;
+    ASSERT_TRUE(grid.loadFromFile(stableGridFile));
     Game game(grid);
 
     ASSERT_EQ(0, game.getCurrentGen());
-    ASSERT_TRUE(game.getGrid().isLoaded());
 }
 
 //Test pour la méthode nextGen
@@ -31,7 +31,8 @@ TEST_CASE(TestGameNextGen) {
             << "00000\n"
             << "10000\n";
     outFile.close();
-    Grid grid(stableGridFile);
+    Grid grid;
+    grid.loadFromFile(stableGridFile);
     Game game(grid);
 
     int initialGen = game.getCurrentGen();
@@ -64,7 +65,8 @@ TEST_CASE(TestGameIsFinished) {
             << "00000\n"
             << "10000\n";
     outFile.close();
-    Grid grid(stableGridFile);
+    Grid grid;
+    grid.loadFromFile(stableGridFile);
     Game game(grid);
 
     ASSERT_TRUE(!game.isFinished());
@@ -88,7 +90,8 @@ TEST_CASE(TestGameStopsWhenStable) {
     outFile.close();
 
     // Charger la grille et initialiser le jeu
-    Grid grid(stableGridFile);
+    Grid grid;
+    grid.loadFromFile(stableGridFile);
     Game game(grid);
 
     ASSERT_TRUE(!game.isFinished()); // Vérifie que le jeu n'est pas terminé au début
@@ -113,7 +116,8 @@ TEST_CASE(TestGameStopsWhenAllDead) {
     outFile.close();
 
     // Charger la grille et initialiser le jeu
-    Grid grid(deadGridFile);
+    Grid grid;
+    grid.loadFromFile(deadGridFile);
     Game game(grid);
 
     ASSERT_TRUE(!game.isFinished()); // Vérifie que le jeu n'est pas terminé au début
