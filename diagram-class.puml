@@ -23,21 +23,23 @@ class Grid {
     - int length
     - int width
     - vector<vector<unique_ptr<Cell>>> cells
-    - bool stateGrid
+    - bool state
+    - string name
     + Grid()
-    + Grid(const string& path)
     + Cell& getCell(int x, int y) const
     + int getLength() const
     + int getWidth() const
     + bool isLoaded() const
-    + int nbNeighbourCellAlive(int row, int col) const
+    + int nbNeighbourCellAlive(int row, int col, bool isTorique) const
+    + bool loadFromFile(const string& path)
+    + string getName() const;
 }
 
 class Game {
     - Grid& grid
     - bool state
     - int currentGen
-    + Game(Grid& grid)
+    + Game(Grid& grid, bool isTorique = true)
     + void nextGen()
     + int getCurrentGen() const
     + bool isFinished() const

@@ -44,7 +44,7 @@ TEST_CASE(TestGameNextGen) {
     Cell& cell = grid.getCell(2, 3);
     ASSERT_TRUE(cell.getState());
 
-    std::ifstream savedFile("out/generation_1.txt");
+    std::ifstream savedFile("stable_grid_out/generation_1.txt");
     ASSERT_TRUE(savedFile.is_open());
 
     std::string line;

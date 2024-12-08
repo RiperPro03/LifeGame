@@ -1,5 +1,6 @@
 #include "../UnitTest.h"
 #include "../../Model/Cell/Cell.h"
+#include "../../Model/ObstacleCell/ObstacleCell.h"
 
 TEST_CASE(TestCellConstructor) {
     Cell cell(1, 2, true);
@@ -19,4 +20,16 @@ TEST_CASE(TestCellSetState) {
     ASSERT_TRUE(cell.getState());
     cell.setState(false); // Change l'état à "mort"
     ASSERT_TRUE(!cell.getState());
+}
+
+// Vérification d'une cellule obstacle
+TEST_CASE(TestObstacleCellBehavior) {
+    ObstacleCell obstacle(5, 5, true); // Une cellule obstacle
+    ASSERT_EQ(5, obstacle.getRow());
+    ASSERT_EQ(5, obstacle.getCol());
+    ASSERT_TRUE(obstacle.isObstacle()); // Vérifie qu'elle est bien un obstacle
+
+    // Tentative de changer son état (doit rester inchangé)
+    obstacle.setState(false);
+    ASSERT_TRUE(obstacle.getState());
 }
