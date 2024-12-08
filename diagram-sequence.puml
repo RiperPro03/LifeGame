@@ -1,0 +1,92 @@
+@startuml
+
+actor Utilisateur
+
+participant "main" as Main
+participant "ConfigView" as ConfigView
+participant "Grid" as Grid
+participant "Game" as Game
+participant "ConsoleView" as ConsoleView
+participant "GraphicView" as GraphicView
+participant "Controller" as Controller
+
+Utilisateur -> Main: Lancer le programme
+
+Main -> ConfigView: Créer ConfigView
+Main -> Utilisateur: Voulez-vous configurer les paramètres ? (o/n)
+Utilisateur -> Main: Répond o/n
+
+alt Utilisateur choisit 'o'
+    Main -> ConfigView: configView()
+    ConfigView -> Main: Retourne cellSize et delayGen
+else Utilisateur choisit 'n'
+    Main -> Main: Utilise les paramètres par défaut
+end
+
+Main -> Utilisateur: Entrez le chemin du fichier de la grille ('exit' pour quitter)
+loop Jusqu'à ce qu'une grille valide soit chargée ou que l'utilisateur quitte
+    Utilisateur -> Main: Fournir un chemin de fichier
+    alt Utilisateur entre 'exit'
+        Main -> Utilisateur: Programme terminé !
+        return
+    else Chemin valide fourni
+        Main -> Grid: loadFromFile(chemin)
+        Grid --> Main: Succès/Échec
+    end
+end
+
+Main -> Game: Créer Game avec Grid et isTorique = true (par défaut)
+Main -> ConsoleView: Créer ConsoleView avec Game
+Main -> GraphicView: Créer GraphicView avec Game et cellSize
+Main -> Controller: Créer Controller avec Game, ConsoleView, GraphicView
+
+Main -> Utilisateur: Voulez-vous activer le mode grille torique ? (o/n)
+Utilisateur -> Main: Répond o/n
+
+alt Utilisateur choisit 'o'
+    Main -> Game: setTorique(true)
+    Main -> Utilisateur: Mode grille torique activé !
+else Utilisateur choisit 'n'
+    Main -> Game: setTorique(false)
+    Main -> Utilisateur: Mode grille classique activé !
+end
+
+Main -> Utilisateur: Choisissez le mode d'affichage : (1) Console, (2) Graphique, (0) Quitter
+loop Jusqu'à ce qu'un choix valide soit fait ou que l'utilisateur quitte
+    Utilisateur -> Main: Fournir un choix (1/2/0)
+
+    alt Choix = 0
+        Main -> Utilisateur: Programme terminé !
+        return
+    else Choix = 1 (Mode Console)
+        Main -> Controller: playConsoleMode()
+        loop Tant que le jeu n'est pas terminé (jeu.isFinished())
+            Controller -> ConsoleView: afficher()
+            ConsoleView --> Controller: Affiche la grille dans la console
+            Controller -> Game: nextGen()
+            Game --> Controller: Passe à la génération suivante
+        end
+
+    else Choix = 2 (Mode Graphique)
+        Main -> Controller: playGraphicMode(delayGen)
+        Controller -> RenderWindow: Créer RenderWindow avec taille basée sur la grille et cellSize
+        loop Tant que RenderWindow est ouvert (window.isOpen())
+            Controller -> RenderWindow: pollEvent(event)
+            alt Event = sf::Event::Closed
+                Controller -> Game: setState(false)
+                Controller -> RenderWindow: Fermer la fenêtre (window.close())
+            end
+            alt Jeu non terminé (!jeu.isFinished())
+                Controller -> GraphicView: display(window)
+                GraphicView --> Controller: Affiche la grille dans la fenêtre graphique
+                Controller -> Game: nextGen()
+                Game --> Controller: Passe à la génération suivante
+                Controller -> RenderWindow: Attente (sf::sleep(delayGen))
+            end
+        end
+    else
+        Main -> Utilisateur: Choix invalide. Veuillez entrer 1, 2 ou 0 pour quitter.
+    end
+end
+
+@enduml

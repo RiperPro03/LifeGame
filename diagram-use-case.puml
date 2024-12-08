@@ -1,0 +1,31 @@
+@startuml
+
+actor Utilisateur as User
+
+rectangle "Jeu de la Vie" {
+    usecase "Configurer les paramètres" as ConfigParams
+    usecase "Charger une grille" as LoadGrid
+    usecase "Activer/Désactiver le mode torique" as ToggleToroidalMode
+    usecase "Afficher la grille (Console)" as DisplayConsole
+    usecase "Afficher la grille (Graphique)" as DisplayGraphic
+    usecase "Passer à la génération suivante" as NextGen
+    usecase "Quitter le programme" as QuitProgram
+}
+
+' Links between User and Use Cases
+User --> ConfigParams
+User --> LoadGrid : Fournit un fichier de grille
+User --> ToggleToroidalMode
+User --> DisplayConsole
+User --> DisplayGraphic
+User --> QuitProgram
+
+' Include relationships (mandatory dependencies)
+ConfigParams -[dashed]-> LoadGrid : <<include>>
+DisplayConsole -[dashed]-> NextGen : <<include>>
+DisplayGraphic -[dashed]-> NextGen : <<include>>
+
+' Extend relationships (optional behaviors)
+ToggleToroidalMode -[dashed]-|> LoadGrid : <<extend>>
+
+@enduml

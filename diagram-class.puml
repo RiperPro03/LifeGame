@@ -39,12 +39,14 @@ class Game {
     - Grid& grid
     - bool state
     - int currentGen
-    + Game(Grid& grid, bool isTorique = true)
+    + Game(Grid& grid)
     + void nextGen()
     + int getCurrentGen() const
     + bool isFinished() const
     + Grid& getGrid() const
     + void setState(bool state)
+    + getTorique() const
+    + void setTorique(bool torique)
     - void saveGen(vector<vector<bool>>& grid) const
 }
 
@@ -60,10 +62,10 @@ class Controller {
 class ConfigView {
     - int minGridSize = 4
     - int maxGridSize = 64
-    - int gridSize = (maxGridSize + minGridSize) / 2
+    - int gridSize = maxGridSize + minGridSize / 2
     - int minCellSize = 10
     - int maxCellSize = 50
-    - int cellSize = (maxCellSize + minCellSize) / 2
+    - int cellSize = maxCellSize + minCellSize / 2
     - int delayGen = 1000
     - const int configWindowWidth = 400
     - const int configWindowHeight = 250
