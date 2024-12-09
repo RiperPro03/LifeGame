@@ -1,0 +1,94 @@
+@startuml
+|Utilisateur|
+start
+
+:Demander si l'utilisateur veut configurer les paramètres;
+if (Configurer les paramètres ?) then (Oui)
+    :Créer ConfigView;
+    :Configurer les paramètres avec configView();
+    :Récupérer cellSize et delayGen;
+else (Non)
+    :Utiliser les paramètres par défaut;
+endif
+
+|Utilisateur|
+:Demander le chemin du fichier de la grille ('exit' pour quitter);
+repeat
+    :Saisir le chemin du fichier;
+    if (Chemin == 'exit') then (Oui)
+        :Afficher "Programme terminé !";
+        stop
+    else (Non)
+        
+        :Charger la grille avec loadFromFile();
+        if (Grille chargée ?) then (Oui)
+            :Afficher "Grille chargée avec succès !";
+            break
+        else (Non)
+            :Afficher "Erreur de chargement, réessayer.";
+        endif
+    endif
+repeat while (Grille non chargée)
+
+
+:Créer Game avec la grille;
+:Créer ConsoleView et GraphicView;
+:Créer Controller;
+
+|Utilisateur|
+:Demander si l'utilisateur veut activer le mode torique;
+if (Mode torique activé ?) then (Oui)
+    
+    :Activer le mode torique avec setTorique(true);
+    :Afficher "Mode grille torique activé !";
+else (Non)
+    
+    :Désactiver le mode torique avec setTorique(false);
+    :Afficher "Mode grille classique activé !";
+endif
+
+|Utilisateur|
+:Demander le mode d'affichage : Console, Graphique ou Quitter (1/2/0);
+repeat
+    :Saisir le choix;
+    if (Choix == 0) then (Oui)
+        :Afficher "Programme terminé !";
+        stop
+    else if (Choix == 1) then (Console Mode)
+        
+        :Appeler playConsoleMode();
+        while (Jeu non terminé) is (Boucle)
+            
+            :Afficher la grille dans la console;
+            
+            :Passer à la génération suivante avec nextGen();
+        endwhile
+        stop
+    else if (Choix == 2) then (Graphical Mode)
+        
+        :Appeler playGraphicMode(delayGen);
+        
+        :Créer RenderWindow avec taille basée sur la grille et cellSize;
+        while (Fenêtre ouverte) is (Boucle)
+            
+            :Gérer les événements utilisateur;
+            if (Fenêtre fermée ?) then (Oui)
+                
+                :Mettre fin au jeu avec setState(false);
+                stop
+            else if (!Jeu terminé) then
+                
+                :Afficher la grille dans la fenêtre graphique;
+                
+                :Passer à la génération suivante avec nextGen();
+                
+                :Attendre delayGen ms;
+            endif
+        endwhile
+        stop
+    else
+        :Afficher "Choix invalide, réessayer.";
+    endif
+repeat while (Choix invalide)
+
+@enduml

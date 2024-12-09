@@ -45,7 +45,18 @@ public:
      * Modifie l'état de la cellule
      * @param state : le nouvel état de la cellule (bool)
      */
-    void setState(bool state);
+    virtual void setState(bool state);
+
+    /**
+     * Vérifie si la cellule est un obstacle
+     * @return true si la cellule est un obstacle, false sinon
+     */
+    virtual bool isObstacle() const;
+
+    /**
+     * Destructeur virtuel de la classe Cell
+     */
+    virtual ~Cell() = default;
 
 };
 

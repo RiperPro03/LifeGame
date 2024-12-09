@@ -11,7 +11,15 @@ class ConsoleView {
 private:
     Game& jeu;
 public:
+    /**
+     * Constructeur de la classe ConsoleView
+     * @param jeu : le jeu de la vie
+     */
     ConsoleView(Game& jeu);
+
+    /**
+     * Affiche la grille actuelle dans la console
+     */
     void afficher() const;
 };
 

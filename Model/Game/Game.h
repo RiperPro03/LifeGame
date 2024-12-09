@@ -4,17 +4,22 @@
 
 #include "../Grid/Grid.h"
 #include <vector>
-#include <iostream>
-#include <fstream>
-#include <filesystem>
 
 using namespace std;
 
+/**
+ * @class Game
+ * @brief Classe représentant le jeu de la vie
+ *
+ * La classe Game permet de gérer le jeu de la vie, en calculant les générations successives
+ * et en sauvegardant les générations dans des fichiers texte.
+ */
 class Game {
 private:
     Grid& grid;
     bool state = true;
     int currentGen = 0;
+    bool isTorique = true;
 
     /**
      * @brief Sauvegarde la génération actuelle dans un fichier texte
@@ -26,7 +31,7 @@ public:
     /**
      * @brief Constructeur de la classe Game
      *
-     * @param grid
+     * @param grid la grille du jeu
      */
     Game(Grid& grid);
 
@@ -67,6 +72,22 @@ public:
      * @param state le nouvel état du jeu
      */
     void setState(bool state);
+
+    /**
+     * @brief Permet de changer le mode torique
+     *
+     * Permet de changer le mode torique de la grille si isTorique est true
+     *
+     * @param torique true si le mode torique est activé, false sinon
+     */
+    void setTorique(bool torique);
+
+    /**
+     * @brief Permet de savoir si le mode torique est activé
+     *
+     * @return true si le mode torique est activé, false sinon
+     */
+    bool getTorique() const;
 };
 
 

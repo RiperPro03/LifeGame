@@ -25,7 +25,11 @@ add_executable(LifeGame main.cpp
         View/ConsoleView/ConsoleView.cpp
         View/ConsoleView/ConsoleView.h
         View/GraphicView/GraphicView.cpp
-        View/GraphicView/GraphicView.h)
+        View/GraphicView/GraphicView.h
+        View/ConfigView/ConfigView.cpp
+        View/ConfigView/ConfigView.h
+        Model/ObstacleCell/ObstacleCell.cpp
+        Model/ObstacleCell/ObstacleCell.h)
 
 target_link_libraries(LifeGame sfml-graphics sfml-window sfml-system)
 

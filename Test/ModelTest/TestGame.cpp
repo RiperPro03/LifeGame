@@ -14,11 +14,11 @@ TEST_CASE(TestGameConstructor) {
             << "00000\n"
             << "10000\n";
     outFile.close();
-    Grid grid(stableGridFile);
+    Grid grid;
+    ASSERT_TRUE(grid.loadFromFile(stableGridFile));
     Game game(grid);
 
     ASSERT_EQ(0, game.getCurrentGen());
-    ASSERT_TRUE(game.getGrid().isLoaded());
 }
 
 //Test pour la méthode nextGen
@@ -31,7 +31,8 @@ TEST_CASE(TestGameNextGen) {
             << "00000\n"
             << "10000\n";
     outFile.close();
-    Grid grid(stableGridFile);
+    Grid grid;
+    grid.loadFromFile(stableGridFile);
     Game game(grid);
 
     int initialGen = game.getCurrentGen();
@@ -43,7 +44,10 @@ TEST_CASE(TestGameNextGen) {
     Cell& cell = grid.getCell(2, 3);
     ASSERT_TRUE(cell.getState());
 
-    std::ifstream savedFile("out/generation_1.txt");
+    // Vérifie que la grille a été modifiée
+    ASSERT_TRUE(!game.getGrid().getCell(4, 1).getState());
+
+    std::ifstream savedFile("stable_grid_out/generation_1.txt");
     ASSERT_TRUE(savedFile.is_open());
 
     std::string line;
@@ -64,7 +68,8 @@ TEST_CASE(TestGameIsFinished) {
             << "00000\n"
             << "10000\n";
     outFile.close();
-    Grid grid(stableGridFile);
+    Grid grid;
+    grid.loadFromFile(stableGridFile);
     Game game(grid);
 
     ASSERT_TRUE(!game.isFinished());
@@ -88,7 +93,8 @@ TEST_CASE(TestGameStopsWhenStable) {
     outFile.close();
 
     // Charger la grille et initialiser le jeu
-    Grid grid(stableGridFile);
+    Grid grid;
+    grid.loadFromFile(stableGridFile);
     Game game(grid);
 
     ASSERT_TRUE(!game.isFinished()); // Vérifie que le jeu n'est pas terminé au début
@@ -113,11 +119,46 @@ TEST_CASE(TestGameStopsWhenAllDead) {
     outFile.close();
 
     // Charger la grille et initialiser le jeu
-    Grid grid(deadGridFile);
+    Grid grid;
+    grid.loadFromFile(deadGridFile);
     Game game(grid);
 
     ASSERT_TRUE(!game.isFinished()); // Vérifie que le jeu n'est pas terminé au début
 
     game.nextGen(); // Passe à la génération suivante
     ASSERT_TRUE(game.isFinished()); // Le jeu doit être terminé (toutes les cellules sont mortes)
+}
+
+TEST_CASE(TestGameGliderNonTorique) {
+    // Création d'une grille avec un glider
+    std::string gliderGridFile = "glider_grid.txt";
+    std::ofstream outFile(gliderGridFile);
+    outFile << "00000\n"
+            << "00100\n"
+            << "00010\n"
+            << "01110\n"
+            << "00000\n";
+    outFile.close();
+
+    // Charger la grille et initialiser le jeu
+    Grid grid;
+    ASSERT_TRUE(grid.loadFromFile(gliderGridFile));
+
+    Game game(grid);
+
+    // Désactiver le mode torique
+    game.setTorique(false);
+    ASSERT_TRUE(!game.getTorique()); // Vérifie que le mode torique est désactivé
+
+    // Simuler les générations jusqu'à ce que le glider atteigne les bords
+    int maxGenerations = 10; // Limite pour éviter une boucle infinie en cas d'erreur
+    for (int i = 0; i < maxGenerations; ++i) {
+        game.nextGen();
+        if (game.isFinished()) {
+            break;
+        }
+    }
+
+    // Vérifie que le jeu est terminé lorsque le glider sort des limites
+    ASSERT_TRUE(game.isFinished());
 }

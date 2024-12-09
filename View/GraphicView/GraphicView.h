@@ -10,12 +10,24 @@ private:
     Game& jeu;
     int cellSize;
 public:
+    /**
+     * Constructeur de la classe GraphicView
+     * @param jeu : le jeu de la vie
+     * @param cellSize : la taille des cellules
+     */
     GraphicView(Game& jeu, int cellSize);  // Constructeur avec référence au modèle et taille des cellules
 
-    void display(sf::RenderWindow& window);           // Affiche la grille dans une fenêtre SFML
+    /**
+     * Affiche la grille dans une fenêtre SFML
+     * @param window : la fenêtre SFML
+     */
+    void display(sf::RenderWindow& window) const;           // Affiche la grille dans une fenêtre SFML
 
+    /**
+     * Obtenir la taille des cellules
+     * @return la taille des cellules
+     */
     int getCellSize() const;  // Obtenir la taille des cellules
-
 };
 
 

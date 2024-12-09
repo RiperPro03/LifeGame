@@ -1,0 +1,108 @@
+@startuml
+
+class Cell {
+    - int row
+    - int col
+    - bool state
+    + Cell(int row, int col, bool state = false)
+    + int getRow() const
+    + int getCol() const
+    + bool getState() const
+    + virtual void setState(bool state)
+    + virtual bool isObstacle() const
+    + virtual ~Cell()
+}
+
+class ObstacleCell {
+    + ObstacleCell(const int row, const int col, const bool state)
+    + void setState(bool state)
+    + bool isObstacle() const
+}
+
+class Grid {
+    - int length
+    - int width
+    - vector<vector<unique_ptr<Cell>>> cells
+    - bool state
+    - string name
+    + Grid()
+    + Cell& getCell(int x, int y) const
+    + int getLength() const
+    + int getWidth() const
+    + bool isLoaded() const
+    + int nbNeighbourCellAlive(int row, int col, bool isTorique) const
+    + bool loadFromFile(const string& path)
+    + string getName() const;
+}
+
+class Game {
+    - Grid& grid
+    - bool state
+    - int currentGen
+    + Game(Grid& grid)
+    + void nextGen()
+    + int getCurrentGen() const
+    + bool isFinished() const
+    + Grid& getGrid() const
+    + void setState(bool state)
+    + getTorique() const
+    + void setTorique(bool torique)
+    - void saveGen(vector<vector<bool>>& grid) const
+}
+
+class Controller {
+    - Game& jeu
+    - ConsoleView& consoleView
+    - GraphicView& graphicView
+    + Controller(Game& jeu, ConsoleView& consoleView, GraphicView& graphicView)
+    + void playConsoleMode() const
+    + void playGraphicMode(int delay) const
+}
+
+class ConfigView {
+    - int minGridSize = 4
+    - int maxGridSize = 64
+    - int gridSize = maxGridSize + minGridSize / 2
+    - int minCellSize = 10
+    - int maxCellSize = 50
+    - int cellSize = maxCellSize + minCellSize / 2
+    - int delayGen = 1000
+    - const int configWindowWidth = 400
+    - const int configWindowHeight = 250
+    - string path = "grille.txt"
+    + ConfigView()
+    + void configView()
+    + void drawView()
+}
+
+class ConsoleView {
+   - Game& jeu
+   + ConsoleView(Game& jeu)
+   + void afficher() const
+}
+
+class GraphicView {
+   - Game& jeu
+   - int cellSize
+   + GraphicView(Game& jeu, int cellSize)
+   + void display(sf::RenderWindow& window) const
+   + int getCellSize() const
+}
+
+Cell <|-- ObstacleCell
+
+Game o-- Grid
+
+Grid *-- Cell
+
+Game o-- ConsoleView
+
+Game o-- GraphicView
+
+Controller o-- Game
+
+Controller o-- ConsoleView
+
+Controller o-- GraphicView
+
+@enduml
