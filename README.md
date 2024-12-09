@@ -114,5 +114,5 @@ Voici les diagrammes qui décrivent l'architecture et le fonctionnement du proje
    ![Diagramme d'activité](https://i.imgur.com/LgByHiM.png)
 
 4. **Diagramme de cas d'utilisation**  
-   ![Diagramme de cas d'utilisation](https://i.imgur.com/wst2wed.png)
+   ![Diagramme de cas d'utilisation](https://i.imgur.com/AfAVwDm.png)
 
