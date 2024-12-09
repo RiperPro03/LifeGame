@@ -14,18 +14,14 @@ rectangle "Jeu de la Vie" {
 
 ' Links between User and Use Cases
 User --> ConfigParams
-User --> LoadGrid : Fournit un fichier de grille
+User --> LoadGrid
 User --> ToggleToroidalMode
 User --> DisplayConsole
 User --> DisplayGraphic
 User --> QuitProgram
 
 ' Include relationships (mandatory dependencies)
-ConfigParams -[dashed]-> LoadGrid : <<include>>
 DisplayConsole -[dashed]-> NextGen : <<include>>
 DisplayGraphic -[dashed]-> NextGen : <<include>>
-
-' Extend relationships (optional behaviors)
-ToggleToroidalMode -[dashed]-|> LoadGrid : <<extend>>
 
 @enduml
