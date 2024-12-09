@@ -1,11 +1,12 @@
 @startuml
-
+left to right direction
 actor Utilisateur as User
 
 rectangle "Jeu de la Vie" {
     usecase "Configurer les paramètres" as ConfigParams
     usecase "Charger une grille" as LoadGrid
     usecase "Activer/Désactiver le mode torique" as ToggleToroidalMode
+    usecase "Choisir le mode d'affichage" as UC4
     usecase "Afficher la grille (Console)" as DisplayConsole
     usecase "Afficher la grille (Graphique)" as DisplayGraphic
     usecase "Passer à la génération suivante" as NextGen
@@ -16,8 +17,9 @@ rectangle "Jeu de la Vie" {
 User --> ConfigParams
 User --> LoadGrid
 User --> ToggleToroidalMode
-User --> DisplayConsole
-User --> DisplayGraphic
+User --> UC4
+UC4 --> DisplayConsole
+UC4 --> DisplayGraphic
 User --> QuitProgram
 
 ' Include relationships (mandatory dependencies)
