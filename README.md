@@ -5,10 +5,10 @@
 Le **Jeu de la Vie** est un automate cellulaire inventé par le mathématicien **John Horton Conway** en 1970. Il s'agit d'un jeu à zéro joueur où l'évolution d'une grille de cellules est déterminée par des règles simples. Chaque cellule peut être vivante ou morte, et son état à la génération suivante dépend de ses voisins.
 
 ### Règles du Jeu
-1. Une cellule vivante avec moins de 2 voisins vivants meurt (sous-population).
-2. Une cellule vivante avec 2 ou 3 voisins vivants reste vivante (survie).
-3. Une cellule vivante avec plus de 3 voisins vivants meurt (surpopulation).
-4. Une cellule morte avec exactement 3 voisins vivants devient vivante (reproduction).
+1. Une cellule **vivante** avec moins de **2** voisins vivants _meurt_ (sous-population).
+2. Une cellule **vivante** avec **2** ou **3** voisins vivants reste _vivante_ (survie).
+3. Une cellule **vivante** avec plus de **3** voisins vivants _meurt_ (surpopulation).
+4. Une cellule **morte** avec exactement **3** voisins vivants devient _vivante_ (reproduction).
 
 Ce projet implémente le Jeu de la Vie avec des fonctionnalités supplémentaires, comme des **cellules obstacles** qui ne changent jamais d'état et un mode **grille torique** où les bords sont connectés.
 
@@ -17,7 +17,8 @@ Ce projet implémente le Jeu de la Vie avec des fonctionnalités supplémentaire
 ## Comment jouer
 
 ### Prérequis
-- Assurez-vous d'avoir un compilateur C++ compatible avec les bibliothèques utilisées (comme SFML pour l'affichage graphique).
+- Un compilateur C++ compatible avec le standard C++20.
+- CMake version 3.29 ou supérieure pour la configuration et la génération des fichiers de build.
 - Placez un fichier texte contenant la grille initiale dans le répertoire du programme.
 
 ### Instructions
