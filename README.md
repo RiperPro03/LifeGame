@@ -64,7 +64,8 @@ Ce projet implémente le Jeu de la Vie avec des fonctionnalités supplémentaire
 
 ## Exemple de fichier grille
 
-Voici un exemple de fichier texte pour initialiser une grille :
+Voici un exemple de fichier texte pour initialiser une grille (2 types de format sont acceptés) :
+### Type 1
 ```plaintext
 5 10
 0 0 1 0 0 0 0 0 0 0
@@ -73,6 +74,15 @@ Voici un exemple de fichier texte pour initialiser une grille :
 1 1 1 1 1 1 1 1 1 1
 0 0 0 3 2 0 0 0 1 1
 ```
+### Type 2
+```plaintext
+0010000000
+0111000000
+0010023000
+1111111111
+0003200011
+```
+
 - `5` et `10` : Dimensions de la grille (5 lignes, 10 colonnes).
 - `1` : Cellule vivante.
 - `0` : Cellule morte.
