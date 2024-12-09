@@ -104,15 +104,14 @@ Voici un exemple de fichier texte pour initialiser une grille (2 types de format
 
 Voici les diagrammes qui décrivent l'architecture et le fonctionnement du projet :
 
-1. **Diagramme de classes**  
-   ![Diagramme de classes](https://i.imgur.com/hEnywei.png)
+1. **Diagramme de cas d'utilisation**  
+   ![Diagramme de cas d'utilisation](https://i.imgur.com/AfAVwDm.png)
 
-2. **Diagramme de séquence**  
-   ![Diagramme de séquence](https://i.imgur.com/vcZia2Q.png)
+2. **Diagramme de classes**  
+   ![Diagramme de classes](https://i.imgur.com/hEnywei.png)
 
 3. **Diagramme d'activité**  
    ![Diagramme d'activité](https://i.imgur.com/LgByHiM.png)
 
-4. **Diagramme de cas d'utilisation**  
-   ![Diagramme de cas d'utilisation](https://i.imgur.com/AfAVwDm.png)
-
+4. **Diagramme de séquence**  
+   ![Diagramme de séquence](https://i.imgur.com/vcZia2Q.png)
